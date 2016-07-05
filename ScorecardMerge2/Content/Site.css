@@ -1,0 +1,213 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+/* custom stuff */
+
+body {
+    background-color: #aaaaaa;
+}
+
+.body-content {
+    background-color: #efefef;
+    padding-bottom: 5em;
+}
+
+#providers-container, #details-container {
+    display:none;
+}
+#main-container[mode="main"] #providers-container {
+    display:inherit;
+}
+
+#main-container[mode="view-details"] #details-container {
+    display:inherit;
+}
+
+.singleProvider {
+    background-color: white;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    /*width: 33.33%; */
+    height: 350px;
+    padding: 5px 10px;
+    margin: 0.5%;
+    float:left;
+    
+    box-shadow: rgba(0,0,0,0.1) 2px 2px;
+}
+
+@media screen and (max-width: 700px) {.singleProvider {width: 99%;}}
+@media screen and (min-width: 701px) and (max-width: 1000px) {.singleProvider {width: 49%;}}
+@media screen and (min-width: 1001px) and (max-width: 1300px) {.singleProvider {width: 32.33%;}}
+@media screen and (min-width: 1301px) and (max-width: 1700px) {.singleProvider {width: 24%;}}
+@media screen and (min-width: 1701px) {.singleProvider {width: 19%; max-width: 500px;}}
+/*@media screen and (min-width: 2101px) {.singleProvider, .singleSubject {width: 15%; max-width: 1000px;}}*/
+
+
+.singleSubject {
+    background-color: #444;
+    color: #ccc;
+    height: 250px;
+    
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+    
+    padding: 5px 10px;
+    margin: 0.5%;
+    float:left;
+ 
+    box-shadow: rgba(0,0,0,0.1) 2px 2px;
+}
+
+@media screen and (max-width: 400px) {.singleSubject {width: 99%;}}
+@media screen and (min-width: 401px) and (max-width: 700px) {.singleSubject {width: 49%;}}
+@media screen and (min-width: 701px) and (max-width: 1000px) {.singleSubject {width: 32.33%;}}
+@media screen and (min-width: 1001px) and (max-width: 1300px) { .singleSubject {width: 24%;}}
+@media screen and (min-width: 1301px) {.singleSubject {width: 19%; max-width: 400px;}}
+/*@media screen and (min-width: 2101px) {.singleProvider, .singleSubject {width: 15%; max-width: 1000px;}}*/
+
+
+.singleProvider:hover {
+    cursor: pointer;
+    box-shadow: rgba(0,0,0,0.1) 4px 4px;
+}
+
+.singleProvider.bump, .singleSubject.bump {
+    animation-name: highlightedSingle;
+    animation-duration: 1s;
+}
+
+@keyframes highlightedSingle {
+    from {background-color: #ffffaa}
+    to {background-color:white}
+}
+
+.loading-indicator {
+    align-content:center;
+    text-align:center;
+    border: solid 2px #aaaaaa;
+    margin: 30px 0.5%;
+    padding: 20px;
+    clear:both;    
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.flex-container {
+    display:flex;
+}
+.flex-1 {
+    flex-grow:1;
+}
+.flex-2 {
+    flex-grow:2;
+}
+
+.singleProvider h1, .singleSubject h1 {
+    padding-top: 0;
+    font-size: 1.3em;
+    height:40px;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+
+.singleSubject h1 {
+    height:40px
+}
+
+.address { 
+    margin: 10px 0;
+}
+.address p {
+    margin: 0;
+}
+
+.graph-container {
+    width:100%;
+    height: 150px;
+}
+
+/* search form */
+#find-provider {
+    margin-top: 0.95em;
+    text-align: right;
+margin-right: 1%;
+    
+}
+
+#find-provider input {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    width: 70%;
+    border: 2px solid rgb(170, 170, 170);
+    padding: 5px;
+    margin: 5px;
+}
+
+.datatooltip {
+    position:absolute;
+    background-color: #333;
+    color: #ccc;
+    width:300px;
+    padding:20px;
+    
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    overflow:hidden;
+}
+
+.datatooltip .bignumber {
+    font-size: 5em;
+    margin: 0;
+    line-height:0.8;
+}
+.datatooltip .bignumbercaption {
+    margin-top: 5px;
+    font-weight:bold;
+    font-size: 0.9em;
+    
+}
+.datatooltip .bignumberbaseline {
+
+}
+
+.datatooltip .bignumberbaseline .better{
+    font-weight:bold;
+    color: #66ff66;
+}
+
+.datatooltip .bignumberbaseline .worse{
+    font-weight:bold;
+    color: #ff6666;
+}
+
+@media screen and (max-width: 700px) {.flex-container {display:block} #find-provider {text-align:left;}}
