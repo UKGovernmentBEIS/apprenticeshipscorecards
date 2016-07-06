@@ -29,6 +29,9 @@ textarea {
 body {
     background-color: #aaaaaa;
 }
+.navbar {
+    border:none;
+}
 
 .body-content {
     background-color: #efefef;
@@ -156,13 +159,40 @@ body {
 
 /* search form */
 #find-provider {
-    margin-top: 0.95em;
+    margin-top: 0;
     text-align: right;
-margin-right: 1%;
-    
+    margin-right: 1%;
+    background-color: white;
+    height: 0;   
+    overflow:hidden;
+    padding:0;
+    clear:both;
+}
+#find-provider.active {
+    height:auto;
+    padding:3em 10px;
+    margin-bottom:10px;
+    border-bottom: 2px solid gainsboro;
 }
 
-#find-provider input {
+#menu-button {
+    background-color:white;
+    border: 2px solid gainsboro;
+    float:right;
+    margin-right: 5%;
+    
+    padding: 4px 25px;
+    cursor:pointer;
+    user-select:none;
+}
+
+#menu-button.active {
+    border-bottom:none;
+    margin-bottom: 0;
+    padding-bottom: 17px;
+}
+
+#find-provider input, #find-provider select {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -170,6 +200,16 @@ margin-right: 1%;
     border: 2px solid rgb(170, 170, 170);
     padding: 5px;
     margin: 5px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
 }
 
 .datatooltip {
