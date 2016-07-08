@@ -83,15 +83,9 @@ C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\app
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\ScorecardMerge2.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\ScorecardMerge2.pdb
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Antlr3.Runtime.dll
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\EntityFramework.dll
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\EntityFramework.SqlServer.dll
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.AspNet.Identity.Core.dll
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.AspNet.Identity.Owin.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Newtonsoft.Json.dll
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Owin.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\System.Web.Helpers.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\System.Web.Mvc.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\System.Web.Optimization.dll
@@ -110,11 +104,6 @@ C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\app
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\System.Web.WebPages.Razor.xml
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Antlr3.Runtime.pdb
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Newtonsoft.Json.xml
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\EntityFramework.xml
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\EntityFramework.SqlServer.xml
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.AspNet.Identity.Core.xml
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.AspNet.Identity.Owin.xml
-C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\obj\Debug\ScorecardMerge2.csprojResolveAssemblyReference.cache
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\obj\Debug\ScorecardMerge2.dll
 C:\Users\daniel.rothig\Documents\Visual Studio 2015\Projects\ScorecardMerge2\apprenticeshipscorecards\ScorecardMerge2\obj\Debug\ScorecardMerge2.pdb
