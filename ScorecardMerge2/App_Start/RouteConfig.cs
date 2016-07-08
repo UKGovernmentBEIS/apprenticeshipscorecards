@@ -12,11 +12,7 @@ namespace ScorecardMerge2
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-            routes.MapRoute("ApprenticeshipDetails",
-                "Apprenticeship/Details/{ukprn}",
-                new { controller = "Apprenticeship", action = "Details" });
-
+            
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}",
