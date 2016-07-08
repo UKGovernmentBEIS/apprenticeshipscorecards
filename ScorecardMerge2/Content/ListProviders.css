@@ -230,6 +230,8 @@ input, select {
   -ms-user-select: none;       /* Internet Explorer/Edge */
   user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
+
+  cursor: inherit;
 }
 
 .label-div {
@@ -246,7 +248,6 @@ input, select {
 .nodata {
     padding: 5px;
     font-size: 0.9em; 
-    cursor: default;
     text-anchor: middle;
 }
 
