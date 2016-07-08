@@ -11,6 +11,9 @@ namespace ScorecardMerge2
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/underscore").Include(
+                        "~/Scripts/underscore-min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/mustache").Include(
                         "~/Scripts/mustache.js"));
 
