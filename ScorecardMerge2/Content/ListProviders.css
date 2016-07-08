@@ -41,6 +41,11 @@ body {
         margin-top: 20px;
 }
 
+/*details page*/
+.quickfacts li {
+    margin-bottom:10px;
+}
+
 /* provider cards and subject cards */
 
 .singleProvider {

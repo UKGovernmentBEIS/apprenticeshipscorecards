@@ -12,7 +12,7 @@
             <a href="#{{ukprn}}" class="get-providerdetails" data-ukprn="{{ukprn}}">{{name}}</a>
         </h1>
         <div class="graph-container empty" data-ukprn="{{ukprn}}"></div>
-        <p>{{number_apprenticeships}}+ courses offered</p>
+        <p>{{number_apprenticeships}}+ subjects offered</p>
         {{#address.latitude}} {{#address.longitude}}
         <a class="prevent-propagation" href="http://www.google.com/maps?daddr={{address.latitude}},{{address.longitude}}" target="_blank">View on map</a>
         {{/address.longitude}} {{/address.latitude}}
@@ -21,33 +21,57 @@
 </script>
 
 <script id="earningsTooltip-template" type="x-tmpl-mustache">
-    <p class="bignumber">&pound;{{value}}</p>
+    <p class="bignumber">{{valueFormatted}}</p>
     <p class="bignumbercaption">average earnings five years after completion.</p>
-    <p class="bignumberbaseline">That's <span class="{{betterorworse}}">&pound;{{difference}} {{moreorless}}</span> than the national average.</p>
+    <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} {{moreorless}}</span> than the national average.</p>
 </script>
 
 <script id="satisfactionTooltip-template" type="x-tmpl-mustache">
-    <p class="bignumber">{{value}}</p>
+    <p class="bignumber">{{valueFormatted}}</p>
     <p class="bignumbercaption">average score given to this {{elementdescriptor}} by learners.</p>
     <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
 </script>
 
 <script id="passrateTooltip-template" type="x-tmpl-mustache">
-    <p class="bignumber">{{value}}%</p>
+    <p class="bignumber">{{valueFormatted}}</p>
     <p class="bignumbercaption">of learners complete their education {{inorwith}} this {{elementdescriptor}}.</p>
     <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
 </script>
 
 <script id="nodataTooltip-template" type="x-tmpl-mustache">
     <p class="bignumber">?</p>
-    <p class="bignumberbaseline">{{descriptor}}</p>
+    <p class="bignumberbaseline">{{noDataDescriptor}}</p>
 </script>
 <script id="providerDetails-template" type="x-tmpl-mustache">
     <h2>{{name}}</h2>
     <a href="#" class="mode-main">Go back</a>
     <div class="flex-container">
-        <div class="flex-2" style="padding: 3em;">
-            <div class="graph-container empty" style="max-width: 400px" data-ukprn="{{ukprn}}"></div>
+        <div class="flex-2">
+            {{#apprenticeships}}
+            {{^subject_tier_2_code}}
+            <h3>Quick facts</h3>
+            <ul class="quickfacts">
+                {{^performanceData.0.noData}}
+                <li>Training graduates go on to earn {{performanceData.0.valueFormatted}} on average.</li>
+                {{/performanceData.0.noData}} 
+                {{#earnings.percentage_above_21k}}
+                <li>{{earnings.percentage_above_21k}}% of graduates earn over &pound;21,000.</li>
+                {{/earnings.percentage_above_21k}}               
+                {{^performanceData.2.noData}}
+                <li>{{performanceData.2.valueFormatted}} of learners complete their education with this training provider.</li>
+                {{/performanceData.2.noData}}
+                {{^performanceData.1.noData}}
+                <li>Training graduates rate this training provider {{performanceData.1.valueFormatted}} out of 10.</li>
+                {{/performanceData.1.noData}}
+                {{#learner_stats.total}}
+                <li>There are {{learner_stats.total}} learners with this training provider{{#learner_stats.age_25_plus}}, {{learner_stats.age_25_plus}} of which are aged 25 or older{{/learner_stats.age_25_plus}}.
+                </li>
+                {{/learner_stats.total}}
+                
+            </ul>
+            <!--<div class="graph-container empty" style="max-width: 400px" data-ukprn="{{ukprn}}"></div>-->
+            {{/subject_tier_2_code}}
+            {{/apprenticeships}}
         </div>
         <div class="flex-1">
             <div class="address">
