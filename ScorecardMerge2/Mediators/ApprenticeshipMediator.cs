@@ -25,19 +25,31 @@ namespace ScorecardMerge2.Mediators
         [Obsolete]
         public ApprenticeshipMediator() : this("https://apprenticeship-scorecard-api.herokuapp.com/", "https://api.postcodes.io") { }
         
-        public async Task<object> RetrieveProvidersJson(int page, string search, string postcode, int? distance)
+        public async Task<object> RetrieveProvidersJson(int page, string sortby, string search, string postcode, int? distance)
         {
+            string sortByField;
+            bool reverse;
+            if (sortby == "name")
+            {
+                sortByField = "name";
+                reverse = false;
+            } else
+            {
+                // TODO: implement other sort orders
+                throw new NotImplementedException();
+            }
+            
             using (var httpClient = new HttpClient { BaseAddress = _apiUrl })
             {
                 object locationInfo = null;
 
-                var enpoint = String.IsNullOrEmpty(search)
-                    ? string.Format("providers?page_size=20&page_number={0}", page)
-                    : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}", search, page);
+                var endpoint = String.IsNullOrEmpty(search)
+                    ? string.Format("providers?page_size=20&page_number={0}&sort_by={1}&reverse={2}", page, sortByField, reverse)
+                    : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}", search, page, sortByField, reverse);
 
                 if (!String.IsNullOrEmpty(postcode) && distance.HasValue)
                 {
-                    const double radiusOfEarthInMiles = 3959.0; //ummm... todo?
+                    const double radiusOfEarthInMiles = 3959.0;
                     double latitude, longitude;
                     ResolveAddress(postcode, out latitude, out longitude);
                     if (!double.IsNaN(latitude) && !double.IsNaN(longitude))
@@ -45,8 +57,8 @@ namespace ScorecardMerge2.Mediators
                         double delta_lat = 360.0 * distance.Value / (2.0 * Math.PI * radiusOfEarthInMiles);
                         double delta_long = delta_lat / Math.Cos(Math.Abs(latitude) * Math.PI / 180.0);
 
-                        enpoint = String.Format("{0}&query=address.longitude>{1} and address.longitude<{2} and address.latitude>{3} and address.latitude<{4}",
-                            enpoint,
+                        endpoint = String.Format("{0}&query=address.longitude>{1} and address.longitude<{2} and address.latitude>{3} and address.latitude<{4}",
+                            endpoint,
                             longitude - delta_long,
                             longitude + delta_long,
                             latitude - delta_lat,
@@ -56,7 +68,7 @@ namespace ScorecardMerge2.Mediators
                     }
                 }
                 
-                using (var response = await httpClient.GetAsync(enpoint)) 
+                using (var response = await httpClient.GetAsync(endpoint)) 
                 {
                     var jsonString = await response.Content.ReadAsStringAsync();
                     var numberList = new List<int>(64);

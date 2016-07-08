@@ -29,9 +29,9 @@ namespace ScorecardMerge2.Controllers
         }
 
         // POST: ListData
-        public async Task<JsonResult> ListData(int page, string search, string postcode, int? distance)
+        public async Task<JsonResult> ListData(int page, string sortby, string search, string postcode, int? distance)
         {
-            var jsonObject = await _mediator.RetrieveProvidersJson(page, search ?? "", postcode, distance);
+            var jsonObject = await _mediator.RetrieveProvidersJson(page, sortby ?? "", search ?? "", postcode, distance);
             return Json(jsonObject);
         }
 

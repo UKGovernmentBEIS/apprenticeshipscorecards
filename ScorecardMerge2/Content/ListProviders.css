@@ -189,7 +189,7 @@ a.get-providerdetails {
     padding-bottom: 17px;
 }
 
-#find-provider input, #find-provider select {
+input, select {
     display: inline;
     border-radius: 5px;
     -moz-border-radius: 5px;
@@ -210,6 +210,11 @@ a.get-providerdetails {
 
 #find-provider-clear-search-container {
     margin: 10px 5px;
+}
+
+#sortby-container {
+    float:right;
+    margin-top: -6px;
 }
 
 @media screen and (max-width: 700px) {.flex-container {display:block} #find-provider {text-align:left;}}
