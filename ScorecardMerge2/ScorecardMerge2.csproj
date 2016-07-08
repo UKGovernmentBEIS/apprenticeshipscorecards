@@ -201,6 +201,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\ListProvidersUtil.js" />
+    <Content Include="Scripts\ListProvidersGraphing.js" />
+    <Content Include="Scripts\ListProvidersApi.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\mustache.js" />
     <Content Include="Scripts\respond.js" />
@@ -243,6 +246,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Apprenticeship\Details.cshtml" />
     <Content Include="Views\Apprenticeship\List.cshtml" />
+    <Content Include="Views\Apprenticeship\Test.cshtml" />
+    <Content Include="Views\Apprenticeship\_ListTemplates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

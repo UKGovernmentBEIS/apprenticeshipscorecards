@@ -38,25 +38,29 @@ body {
     padding-bottom: 5em;
 }
 
+.body-content[mode="view-details"] {
+    background-color: white;
+}
+
 #providers-container, #details-container {
     display:none;
 }
-#main-container[mode="main"] #providers-container {
+.body-content[mode="main"] #providers-container {
     display:inherit;
 }
 
-#main-container[mode="view-details"] #details-container {
+.body-content[mode="view-details"] #details-container {
     display:inherit;
 }
 
 .singleProvider {
     background-color: white;
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+    border-radius: 12px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
     /*width: 33.33%; */
-    height: 350px;
-    padding: 5px 10px;
+    height: 340px;
+    padding: 30px;
     margin: 0.5%;
     float:left;
     
@@ -72,16 +76,16 @@ body {
 
 
 .singleSubject {
-    background-color: #444;
-    color: #ccc;
+    background-color: #efefef;
+    color: #111;
     height: 250px;
     
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
 
     
-    padding: 5px 10px;
+    padding: 15px;
     margin: 0.5%;
     float:left;
  
@@ -133,16 +137,20 @@ body {
     flex-grow:2;
 }
 
+#providers-all {
+        margin-top: 20px;
+}
 .singleProvider h1, .singleSubject h1 {
     padding-top: 0;
-    font-size: 1.3em;
-    height:40px;
+    margin-top: 0;
+    font-size: 1.2em;
+    height:38px;
     text-overflow:ellipsis;
     overflow:hidden;
 }
 
-.singleSubject h1 {
-    height:40px
+a.get-providerdetails {
+    color: #111;
 }
 
 .address { 
@@ -154,25 +162,32 @@ body {
 
 .graph-container {
     width:100%;
-    height: 150px;
+    height: 170px;
+    margin-bottom: 20px;
 }
 
 /* search form */
 #find-provider {
     margin-top: 0;
-    text-align: right;
     margin-right: 1%;
     background-color: white;
-    height: 0;   
+    max-height: 0;   
     overflow:hidden;
     padding:0;
     clear:both;
+    
+    padding:0 3em;
+    padding-top:0;
+    padding-bottom:0;
 }
 #find-provider.active {
-    height:auto;
-    padding:3em 10px;
+    max-height:500px;
+    padding-top:2em;
+    padding-bottom:2em;
     margin-bottom:10px;
     border-bottom: 2px solid gainsboro;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
 }
 
 #menu-button {
@@ -193,6 +208,7 @@ body {
 }
 
 #find-provider input, #find-provider select {
+    display: inline;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -200,6 +216,18 @@ body {
     border: 2px solid rgb(170, 170, 170);
     padding: 5px;
     margin: 5px;
+}
+
+#find-provider #find-provider-distance {
+    width: auto;
+}
+
+#find-provider label {
+    margin: 10px 5px 0px;
+}
+
+#find-provider-clear-search-container {
+    margin: 10px 5px;
 }
 
 .noselect {
@@ -210,6 +238,24 @@ body {
   -ms-user-select: none;       /* Internet Explorer/Edge */
   user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+
+.label-div {
+    color: #111;
+    fill: #111;
+    font-size: 0.9em;
+}
+
+
+.baselineLegend {
+    stroke: #555;
+}
+
+.nodata {
+    padding: 5px;
+    font-size: 0.9em; 
+    cursor: default;
+    text-anchor: middle;
 }
 
 .datatooltip {

@@ -29,6 +29,8 @@ namespace ScorecardMerge2.Mediators
         {
             using (var httpClient = new HttpClient { BaseAddress = _apiUrl })
             {
+                object locationInfo = null;
+
                 var enpoint = String.IsNullOrEmpty(search)
                     ? string.Format("providers?page_size=20&page_number={0}", page)
                     : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}", search, page);
@@ -49,6 +51,8 @@ namespace ScorecardMerge2.Mediators
                             longitude + delta_long,
                             latitude - delta_lat,
                             latitude + delta_lat);
+
+                        locationInfo = new { longitude, latitude, delta_long, delta_lat };
                     }
                 }
                 
@@ -61,7 +65,7 @@ namespace ScorecardMerge2.Mediators
                     {
                         numberList.Add(int.Parse(item.Groups[1].Value));
                     }
-                    return new { providers = jsonString, apprenticeships = await RetrieveApprenticeships(numberList.ToArray()) };
+                    return new { providers = jsonString, apprenticeships = await RetrieveApprenticeships(numberList.ToArray()), locationInfo = locationInfo };
                 }
             }
         }

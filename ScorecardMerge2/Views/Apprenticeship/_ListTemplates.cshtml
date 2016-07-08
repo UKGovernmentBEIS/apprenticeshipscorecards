@@ -1,0 +1,84 @@
+﻿<script id="loading-template" type="x-tmpl-mustache">
+    <div class="loading-indicator">{{{message}}}</div>
+</script>
+<script id="label-template" type="x-tmpl-mustache">
+    <div class="label-name">{{name}}</div>
+    <div class="label-value">{{value}}</div>
+</script>
+<script id="bunchOfProviders-template" type="x-tmpl-mustache">
+    {{#.}}
+    <div class="singleProvider get-providerdetails" data-ukprn="{{ukprn}}">
+        <h1>
+            <a href="#{{ukprn}}" class="get-providerdetails" data-ukprn="{{ukprn}}">{{name}}</a>
+        </h1>
+        <div class="graph-container empty" data-ukprn="{{ukprn}}"></div>
+        <p>{{number_apprenticeships}}+ courses offered</p>
+        {{#address.latitude}} {{#address.longitude}}
+        <a class="prevent-propagation" href="http://www.google.com/maps?daddr={{address.latitude}},{{address.longitude}}" target="_blank">View on map</a>
+        {{/address.longitude}} {{/address.latitude}}
+    </div>
+    {{/.}}
+</script>
+
+<script id="earningsTooltip-template" type="x-tmpl-mustache">
+    <p class="bignumber">&pound;{{value}}</p>
+    <p class="bignumbercaption">average earnings five years after completion.</p>
+    <p class="bignumberbaseline">That's <span class="{{betterorworse}}">&pound;{{difference}} {{moreorless}}</span> than the national average.</p>
+</script>
+
+<script id="satisfactionTooltip-template" type="x-tmpl-mustache">
+    <p class="bignumber">{{value}}</p>
+    <p class="bignumbercaption">average score given to this {{elementdescriptor}} by learners.</p>
+    <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
+</script>
+
+<script id="passrateTooltip-template" type="x-tmpl-mustache">
+    <p class="bignumber">{{value}}%</p>
+    <p class="bignumbercaption">of learners complete their education {{inorwith}} this {{elementdescriptor}}.</p>
+    <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
+</script>
+
+<script id="nodataTooltip-template" type="x-tmpl-mustache">
+    <p class="bignumber">?</p>
+    <p class="bignumberbaseline">{{descriptor}}</p>
+</script>
+<script id="providerDetails-template" type="x-tmpl-mustache">
+    <h2>{{name}}</h2>
+    <a href="#" class="mode-main">Go back</a>
+    <div class="flex-container">
+        <div class="flex-2" style="padding: 3em;">
+            <div class="graph-container empty" style="max-width: 400px" data-ukprn="{{ukprn}}"></div>
+        </div>
+        <div class="flex-1">
+            <div class="address">
+                <h3>Address</h3>
+                {{#address.address1}}<p>{{address.address1}}</p>{{/address.address1}}
+                {{#address.address2}}<p>{{address.address2}}</p>{{/address.address2}}
+                {{#address.town}}<p>{{address.town}}</p>{{/address.town}}
+                {{#address.county}}<p>{{address.county}}</p>{{/address.county}}
+                {{#address.post_code}}<p>{{address.post_code}}</p>{{/address.post_code}}
+            </div>
+            {{#address.latitude}} {{#address.longitude}}
+            <p>
+                <a href="http://www.google.com/maps?daddr={{address.latitude}},{{address.longitude}}" target="_blank">View on map</a>
+            </p>
+            {{/address.longitude}} {{/address.latitude}}
+            {{#website}}
+            <p>
+                <a href="{{website}}">Visit their website</a>
+            </p>
+            {{/website}}
+        </div>
+    </div>
+    <h3>Subjects</h3>
+    <div id="subjects-all">
+        {{#apprenticeships}}
+        {{#subject_tier_2_code}}
+        <div class="singleSubject">
+            <h1>{{subject_tier_2_title}}</h1>
+            <div class="graph-container empty" data-ukprn="{{ukprn}}" data-subjectcode="{{subject_tier_2_code}}"></div>
+        </div>
+        {{/subject_tier_2_code}}
+        {{/apprenticeships}}
+    </div>
+</script>

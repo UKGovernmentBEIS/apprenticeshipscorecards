@@ -24,6 +24,11 @@ namespace ScorecardMerge2.Controllers
             return View("List");
         }
 
+        public ActionResult TestView()
+        {
+            return View("Test");
+        }
+
         // POST: ListData
         public async Task<JsonResult> ListData(int page, string search, string postcode, int? distance)
         {
