@@ -1,3 +1,6 @@
+/packages/
+!packages/repositories.config
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
