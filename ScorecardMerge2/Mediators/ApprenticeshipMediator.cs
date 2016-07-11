@@ -38,48 +38,52 @@ namespace ScorecardMerge2.Mediators
                 // TODO: implement other sort orders
                 throw new NotImplementedException();
             }
-            
-            using (var httpClient = new HttpClient { BaseAddress = _apiUrl })
+                        
+            var endpoint = String.IsNullOrEmpty(search)
+                ? string.Format("providers?page_size=20&page_number={0}&sort_by={1}&reverse={2}", page, sortByField, reverse)
+                : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}", search, page, sortByField, reverse);
+
+            object locationInfo = null;
+            if (!String.IsNullOrEmpty(postcode) && distance.HasValue)
             {
-                object locationInfo = null;
-
-                var endpoint = String.IsNullOrEmpty(search)
-                    ? string.Format("providers?page_size=20&page_number={0}&sort_by={1}&reverse={2}", page, sortByField, reverse)
-                    : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}", search, page, sortByField, reverse);
-
-                if (!String.IsNullOrEmpty(postcode) && distance.HasValue)
-                {
-                    const double radiusOfEarthInMiles = 3959.0;
-                    double latitude, longitude;
-                    ResolveAddress(postcode, out latitude, out longitude);
-                    if (!double.IsNaN(latitude) && !double.IsNaN(longitude))
-                    {
-                        double delta_lat = 360.0 * distance.Value / (2.0 * Math.PI * radiusOfEarthInMiles);
-                        double delta_long = delta_lat / Math.Cos(Math.Abs(latitude) * Math.PI / 180.0);
-
-                        endpoint = String.Format("{0}&query=address.longitude>{1} and address.longitude<{2} and address.latitude>{3} and address.latitude<{4}",
-                            endpoint,
-                            longitude - delta_long,
-                            longitude + delta_long,
-                            latitude - delta_lat,
-                            latitude + delta_lat);
-
-                        locationInfo = new { longitude, latitude, delta_long, delta_lat };
-                    }
-                }
-                
-                using (var response = await httpClient.GetAsync(endpoint)) 
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    var numberList = new List<int>(64);
-                    // some genuinely horrid json parsing here...
-                    foreach (Match item in Regex.Matches(jsonString, "\"ukprn\":([0-9]*)"))
-                    {
-                        numberList.Add(int.Parse(item.Groups[1].Value));
-                    }
-                    return new { providers = jsonString, apprenticeships = await RetrieveApprenticeships(numberList.ToArray()), locationInfo = locationInfo };
-                }
+                endpoint = endpoint + GetLocationQueryAppendix(postcode, distance.Value, out locationInfo);
             }
+
+            var jsonString = RequestJson(endpoint);
+            var numberList = new List<int>(64);
+            // some genuinely horrid json parsing here...
+            foreach (Match item in Regex.Matches(jsonString, "\"ukprn\":([0-9]*)"))
+            {
+                numberList.Add(int.Parse(item.Groups[1].Value));
+            }
+            var apprenticeships = RetrieveApprenticeships(numberList.ToArray());
+            return new { providers = jsonString, apprenticeships = apprenticeships, locationInfo = locationInfo };
+        }
+
+        private string GetLocationQueryAppendix(string postcode, int distance, out object locationInfo)
+        {
+            const double radiusOfEarthInMiles = 3959.0;
+            double latitude, longitude;
+            ResolveAddress(postcode, out latitude, out longitude);
+            if (!double.IsNaN(latitude) && !double.IsNaN(longitude))
+            {
+                double delta_lat = 360.0 * distance / (2.0 * Math.PI * radiusOfEarthInMiles);
+                double delta_long = delta_lat / Math.Cos(Math.Abs(latitude) * Math.PI / 180.0);
+
+                locationInfo = new { longitude, latitude, delta_long, delta_lat };
+
+                return String.Format("&query=address.longitude>{0} and address.longitude<{1} and address.latitude>{2} and address.latitude<{3}",
+                    longitude - delta_long,
+                    longitude + delta_long,
+                    latitude - delta_lat,
+                    latitude + delta_lat);
+            }
+            else
+            {
+                locationInfo = null;
+                return "";
+            }
+
         }
 
         private void ResolveAddress(string postcode, out double latitude, out double longitude)
@@ -120,16 +124,17 @@ namespace ScorecardMerge2.Mediators
             }
         }
 
-        internal async Task<object> RetrieveProviderDetail(int ukprn)
+        public object RetrieveProviderDetail(int ukprn)
         {
             return new
             {
-                providers = await RetrieveProvidersDetails(new int[] { ukprn }),
-                apprenticeships = await RetrieveApprenticeships(new int[] {ukprn})
+                providers = RetrieveProvidersDetails(new int[] { ukprn }),
+                apprenticeships = RetrieveApprenticeships(new int[] { ukprn })
             };
         }
 
-        private async Task<string> RetrieveApprenticeships(int[] ukprn) {
+        private string RetrieveApprenticeships(int[] ukprn)
+        {
             if (!ukprn.Any())
             {
                 return RequestJson("apprenticeships?query=provider_id=0");
@@ -138,7 +143,8 @@ namespace ScorecardMerge2.Mediators
             var apprenticeshipEnpoint = string.Format("apprenticeships?page_size=250&query={0}", queryStringForApprenticeships);
             return RequestJson(apprenticeshipEnpoint);
         }
-        private async Task<string> RetrieveProvidersDetails(int[] ukprn) {
+        private string RetrieveProvidersDetails(int[] ukprn)
+        {
             if (!ukprn.Any())
             {
                 return RequestJson("providers?query=ukprn=0");
