@@ -82,6 +82,7 @@ namespace ScorecardMerge2.Mediators
 
             foreach (var x in providers["results"])
             {
+                x["number_apprenticeships"] = x["apprenticeships"].Count();
                 x["apprenticeships"] = JToken.FromObject(x["apprenticeships"].Where(y => (string)y["subject_tier_2_code"] == effectiveSubjectCode));
             }
 
