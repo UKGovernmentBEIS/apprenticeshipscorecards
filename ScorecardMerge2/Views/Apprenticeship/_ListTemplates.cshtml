@@ -11,6 +11,9 @@
         <h1>
             <a href="#{{ukprn}}" class="get-providerdetails" data-ukprn="{{ukprn}}">{{name}}</a>
         </h1>
+        {{#distance}}
+        <p>Distance: {{distance}} miles</p>
+        {{/distance}}
         <div class="graph-container empty" data-ukprn="{{ukprn}}"></div>
         <p>{{number_apprenticeships}}+ subjects offered</p>
         {{#address.latitude}} {{#address.longitude}}
