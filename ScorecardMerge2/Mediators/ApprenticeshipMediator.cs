@@ -112,7 +112,7 @@ namespace ScorecardMerge2.Mediators
 
         private void ResolveAddress(string postcode, out double latitude, out double longitude)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format("{0}postcodes?query={1}", _postCodesApiUrl, postcode))   ;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format("{0}postcodes?query={1}&limit=1", _postCodesApiUrl, postcode))   ;
             request.Method = "GET";
             request.Accept = "text/json";
             string res;
