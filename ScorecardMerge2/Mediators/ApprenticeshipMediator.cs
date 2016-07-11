@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
 
 namespace ScorecardMerge2.Mediators
 {
@@ -24,63 +27,73 @@ namespace ScorecardMerge2.Mediators
         //dev only constructor override
         [Obsolete]
         public ApprenticeshipMediator() : this("https://apprenticeship-scorecard-api.herokuapp.com/", "https://api.postcodes.io") { }
-        
-        public async Task<object> RetrieveProvidersJson(int page, string sortby, string search, string postcode, int? distance)
+
+        public object RetrieveProvidersJson(int page, string sortby, string subjectcode, string search, string postcode, int? distance)
         {
+            string effectiveSubjectCode = String.IsNullOrEmpty(subjectcode) ? "0" : subjectcode;
             string sortByField;
             bool reverse;
             if (sortby == "name")
             {
                 sortByField = "name";
                 reverse = false;
-            } else
+            }
+            else
             {
                 // TODO: implement other sort orders
                 throw new NotImplementedException();
             }
-                        
-            var endpoint = String.IsNullOrEmpty(search)
-                ? string.Format("providers?page_size=20&page_number={0}&sort_by={1}&reverse={2}", page, sortByField, reverse)
-                : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}", search, page, sortByField, reverse);
 
-            object locationInfo = null;
+            var endpoint = String.IsNullOrEmpty(search)
+                ? string.Format("providers/search?page_size=20&page_number={0}&sort_by={1}&reverse={2}&query=apprenticeships.subject_tier_2_code={3}", page, sortByField, reverse, effectiveSubjectCode)
+                : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}&query=apprenticeships.subject_tier_2_code={4}", search, page, sortByField, reverse, effectiveSubjectCode);
+
             if (!String.IsNullOrEmpty(postcode) && distance.HasValue)
             {
-                endpoint = endpoint + GetLocationQueryAppendix(postcode, distance.Value, out locationInfo);
+                endpoint = endpoint + GetLocationQueryAppendix(postcode, distance.Value);
             }
 
             var jsonString = RequestJson(endpoint);
-            var numberList = new List<int>(64);
-            // some genuinely horrid json parsing here...
-            foreach (Match item in Regex.Matches(jsonString, "\"ukprn\":([0-9]*)"))
+
+            var providers = JObject.Parse(jsonString);
+            var end = false;
+            if (providers["results"].Count() == 0)
             {
-                numberList.Add(int.Parse(item.Groups[1].Value));
+                // we reached the end of the data set - don't append duplicates.
+                return new { providers = new object[0], end = true };
             }
-            var apprenticeships = RetrieveApprenticeships(numberList.ToArray());
-            return new { providers = jsonString, apprenticeships = apprenticeships, locationInfo = locationInfo };
+
+            if ((int)providers["page_number"] < page)
+            {
+                // reached the end of the data set - don't show loading indicator anymore
+                end = true;
+            }
+
+            foreach (var x in providers["results"])
+            {
+                x["apprenticeships"] = JToken.FromObject(x["apprenticeships"].Where(y => (string)y["subject_tier_2_code"] == effectiveSubjectCode));
+            }
+
+            var res = new JObject();
+            res["providers"] = providers["results"]; 
+            res["end"] = end;
+            
+            return new JavaScriptSerializer().DeserializeObject(res.ToString());
         }
 
-        private string GetLocationQueryAppendix(string postcode, int distance, out object locationInfo)
+
+
+        private string GetLocationQueryAppendix(string postcode, int distance)
         {
-            const double radiusOfEarthInMiles = 3959.0;
             double latitude, longitude;
             ResolveAddress(postcode, out latitude, out longitude);
             if (!double.IsNaN(latitude) && !double.IsNaN(longitude))
             {
-                double delta_lat = 360.0 * distance / (2.0 * Math.PI * radiusOfEarthInMiles);
-                double delta_long = delta_lat / Math.Cos(Math.Abs(latitude) * Math.PI / 180.0);
-
-                locationInfo = new { longitude, latitude, delta_long, delta_lat };
-
-                return String.Format("&query=address.longitude>{0} and address.longitude<{1} and address.latitude>{2} and address.latitude<{3}",
-                    longitude - delta_long,
-                    longitude + delta_long,
-                    latitude - delta_lat,
-                    latitude + delta_lat);
+                return String.Format("&lon={0}&lat={1}&dist={2}",
+                    longitude, latitude, distance);               
             }
             else
             {
-                locationInfo = null;
                 return "";
             }
 
@@ -92,8 +105,6 @@ namespace ScorecardMerge2.Mediators
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format("{0}postcodes?query={1}", _postCodesApiUrl, postcode))   ;
             request.Method = "GET";
             request.Accept = "text/json";
-            //request.KeepAlive = false;
-            //request.ProtocolVersion = HttpVersion.Version10;
             string res;
             try
             {
