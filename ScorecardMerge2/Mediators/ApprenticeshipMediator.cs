@@ -147,30 +147,12 @@ namespace ScorecardMerge2.Mediators
 
         public object RetrieveProviderDetail(int ukprn)
         {
-            return new JavaScriptSerializer().DeserializeObject(RetrieveProvidersDetails(new int[] { ukprn }));
-        }
 
-        private string RetrieveApprenticeships(int[] ukprn)
-        {
-            if (!ukprn.Any())
-            {
-                return RequestJson("apprenticeships?query=provider_id=0");
-            }
-            var queryStringForApprenticeships = string.Join(" or ", ukprn.Select(x => string.Format("provider_id={0}", x)));
-            var apprenticeshipEnpoint = string.Format("apprenticeships?page_size=250&query={0}", queryStringForApprenticeships);
-            return RequestJson(apprenticeshipEnpoint);
+            var providerEndpoint = string.Format("providers/{0}", ukprn);
+            var json = RequestJson(providerEndpoint);
+            return new JavaScriptSerializer().DeserializeObject(json);
         }
-        private string RetrieveProvidersDetails(int[] ukprn)
-        {
-            if (!ukprn.Any())
-            {
-                return RequestJson("providers?query=ukprn=0");
-            }
-            var queryStringForProviders = string.Join(" or ", ukprn.Select(x => string.Format("ukprn={0}", x)));
-            var providerEndpoint = string.Format("providers?query={0}", queryStringForProviders);
-            return RequestJson(providerEndpoint);
-        }
-
+        
         private string RequestJson(string endpoint)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(_apiUrl + endpoint);
