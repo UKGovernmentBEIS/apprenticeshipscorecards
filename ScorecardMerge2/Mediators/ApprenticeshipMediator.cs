@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using System.Web.Script.Serialization;
 
 namespace ScorecardMerge2.Mediators
@@ -33,9 +27,14 @@ namespace ScorecardMerge2.Mediators
             string effectiveSubjectCode = String.IsNullOrEmpty(subjectcode) ? "0" : subjectcode;
             string sortByField;
             bool reverse;
-            if (sortby == "name")
+            if (sortby == "name" || string.IsNullOrEmpty(sortby))
             {
                 sortByField = "name";
+                reverse = false;
+            }
+            else if (sortby == "distance")
+            {
+                sortByField = "distance";
                 reverse = false;
             }
             else
@@ -44,26 +43,38 @@ namespace ScorecardMerge2.Mediators
                 throw new NotImplementedException();
             }
 
+            
+            var locationFound = false;
+            string locationAppendix = "";
+            if (!String.IsNullOrEmpty(postcode) && distance.HasValue)
+            {
+                locationAppendix = GetLocationQueryAppendix(postcode, distance.Value);
+                if (!string.IsNullOrEmpty(locationAppendix))
+                {
+                    locationFound = true;
+                } else if (sortByField == "distance")
+                {
+                    sortByField = "name";
+                }
+            }
+
             var endpoint = String.IsNullOrEmpty(search)
                 ? string.Format("providers/search?page_size=20&page_number={0}&sort_by={1}&reverse={2}&query=apprenticeships.subject_tier_2_code={3}", page, sortByField, reverse, effectiveSubjectCode)
                 : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}&query=apprenticeships.subject_tier_2_code={4}", search, page, sortByField, reverse, effectiveSubjectCode);
 
-            if (!String.IsNullOrEmpty(postcode) && distance.HasValue)
-            {
-                endpoint = endpoint + GetLocationQueryAppendix(postcode, distance.Value);
-            }
+            endpoint = endpoint + locationAppendix;
 
             var jsonString = RequestJson(endpoint);
 
             var providers = JObject.Parse(jsonString);
             var end = false;
-            if (providers["results"].Count() == 0)
+            if (providers["results"].Count() == 0 || (int)providers["page_number"] < page)
             {
                 // we reached the end of the data set - don't append duplicates.
-                return new { providers = new object[0], end = true };
+                return new { providers = new object[0], end = true, location = locationFound };
             }
 
-            if ((int)providers["page_number"] < page)
+            if ((int)providers["items_per_page"] > providers["results"].Count())
             {
                 // reached the end of the data set - don't show loading indicator anymore
                 end = true;
@@ -77,11 +88,10 @@ namespace ScorecardMerge2.Mediators
             var res = new JObject();
             res["providers"] = providers["results"]; 
             res["end"] = end;
+            res["location"] = locationFound;
             
             return new JavaScriptSerializer().DeserializeObject(res.ToString());
         }
-
-
 
         private string GetLocationQueryAppendix(string postcode, int distance)
         {
@@ -101,7 +111,6 @@ namespace ScorecardMerge2.Mediators
 
         private void ResolveAddress(string postcode, out double latitude, out double longitude)
         {
-
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format("{0}postcodes?query={1}", _postCodesApiUrl, postcode))   ;
             request.Method = "GET";
             request.Accept = "text/json";
@@ -137,11 +146,7 @@ namespace ScorecardMerge2.Mediators
 
         public object RetrieveProviderDetail(int ukprn)
         {
-            return new
-            {
-                providers = RetrieveProvidersDetails(new int[] { ukprn }),
-                apprenticeships = RetrieveApprenticeships(new int[] { ukprn })
-            };
+            return new JavaScriptSerializer().DeserializeObject(RetrieveProvidersDetails(new int[] { ukprn }));
         }
 
         private string RetrieveApprenticeships(int[] ukprn)

@@ -161,6 +161,9 @@ a.get-providerdetails {
     padding:0 3em;
     padding-top:0;
     padding-bottom:0;
+    
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
 }
 #find-provider.active {
     max-height:500px;
@@ -168,8 +171,6 @@ a.get-providerdetails {
     padding-bottom:2em;
     margin-bottom:10px;
     border-bottom: 2px solid gainsboro;
-    transition-duration: 0.4s;
-    transition-timing-function: ease-in-out;
 }
 
 #menu-button {
