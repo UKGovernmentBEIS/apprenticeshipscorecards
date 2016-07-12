@@ -12,15 +12,17 @@ namespace ScorecardMerge2.Mediators
     {
         private readonly Uri _apiUrl;
         private readonly Uri _postCodesApiUrl;
-        public ApprenticeshipMediator(string apiURL, string postCodesApiUrl)
+        private readonly Uri _geocodeUrl;
+        public ApprenticeshipMediator(string apiURL, string postCodesApiUrl, string geocodeUrl)
         {
             _apiUrl = new Uri(apiURL);
             _postCodesApiUrl = new Uri(postCodesApiUrl);
+            _geocodeUrl = new Uri(geocodeUrl);
         }
 
         //dev only constructor override
         [Obsolete]
-        public ApprenticeshipMediator() : this("https://apprenticeship-scorecard-api.herokuapp.com/", "https://api.postcodes.io") { }
+        public ApprenticeshipMediator() : this("https://apprenticeship-scorecard-api.herokuapp.com/", "https://api.postcodes.io", "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBWXApe1GKBID177W1HdV4VdNOZfv2pMlY&region=GB&") { }
 
         public object RetrieveProvidersJson(int page, string sortby, string subjectcode, string search, string postcode, int? distance)
         {
@@ -84,6 +86,10 @@ namespace ScorecardMerge2.Mediators
             {
                 x["number_apprenticeships"] = x["apprenticeships"].Where(y => (string) y["subject_tier_code"] != "0").Count();
                 x["apprenticeships"] = JToken.FromObject(x["apprenticeships"].Where(y => (string)y["subject_tier_2_code"] == effectiveSubjectCode));
+                if (effectiveSubjectCode != "0")
+                {
+                    x["primary_subject"] = x["apprenticeships"][0]["subject_tier_2_title"];
+                }
             }
 
             var res = new JObject();
@@ -111,6 +117,39 @@ namespace ScorecardMerge2.Mediators
         }
 
         private void ResolveAddress(string postcode, out double latitude, out double longitude)
+        {
+
+            var endpoint = string.Format("{0}address={1}", _geocodeUrl, postcode);
+            var request = (HttpWebRequest) WebRequest.Create(endpoint);
+            request.Method = "GET";
+            request.Accept = "text/json";
+
+            try
+            {
+                using (var res = (HttpWebResponse)request.GetResponse())
+                {
+                    using (var reader = new StreamReader(res.GetResponseStream()))
+                    {
+                        var json = reader.ReadToEnd();
+                        var result = JObject.Parse(json);
+                        var match = result["results"][0]["geometry"]["location"];
+                        longitude = (double) match["lng"];
+                        latitude = (double)match["lat"];
+                        return;
+                    }
+                }
+            }
+            catch
+            {
+                longitude = double.NaN;
+                latitude = double.NaN;
+                return;
+            }
+        }
+
+
+
+        private void ResolveAddress2(string postcode, out double latitude, out double longitude)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(string.Format("{0}postcodes?query={1}&limit=1", _postCodesApiUrl, postcode))   ;
             request.Method = "GET";

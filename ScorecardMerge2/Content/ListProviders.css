@@ -9,8 +9,17 @@ body {
 
 .body-content {
     background-color: #efefef;
-    padding-bottom: 5em;
+    max-width: none;
+    padding: 0 3em 5em;
 }
+
+@media screen and (max-width: 1000px) {
+    .body-content {
+        padding: 0 1em 5em;
+    }
+}
+
+
 
 .body-content[mode="view-details"] {
     background-color: white;
@@ -42,6 +51,10 @@ body {
 }
 
 /*details page*/
+.quickfacts {
+    padding-left: 20px;
+}
+
 .quickfacts li {
     margin-bottom:10px;
 }
@@ -54,7 +67,7 @@ body {
     -moz-border-radius: 12px;
     -webkit-border-radius: 12px;
     /*width: 33.33%; */
-    height: 370px;
+    height: 310px;
     padding: 30px;
     margin: 0.5%;
     float:left;
@@ -72,7 +85,7 @@ body {
 .singleSubject {
     background-color: #efefef;
     color: #111;
-    height: 250px;
+    height: 270px;
     
     border-radius: 8px;
     -moz-border-radius: 8px;
@@ -112,13 +125,17 @@ body {
     padding-top: 0;
     margin-top: 0;
     font-size: 1.2em;
-    height:38px;
+    height:60px;
     text-overflow:ellipsis;
     overflow:hidden;
 }
 
 a.get-providerdetails {
     color: #111;
+    text-decoration:underline;
+}
+a.get-providerdetails:hover{
+    text-decoration:none;
 }
 
 /* misc elements */
@@ -164,7 +181,7 @@ a.get-providerdetails {
     padding-top:0;
     padding-bottom:0;
     
-    transition-duration: 0.4s;
+    transition-duration: 0.6s;
     transition-timing-function: ease-in-out;
 }
 #find-provider.active {
@@ -203,6 +220,15 @@ input, select {
     padding: 5px;
     margin: 5px;
 }
+
+#find-provider-submit {
+    margin-right:20px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding:5px 20px;
+}
+
 
 #find-provider #find-provider-distance {
     width: auto;

@@ -27,9 +27,9 @@
             <br />
             <input type="text" id="find-provider-provider" name="provider" placeholder='e.g. "College"' />
             <br />
-            <label for="postcode">Post code:</label>
+            <label for="postcode">Post code or town:</label>
             <br />
-            <input type="text" id="find-provider-postcode" name="postcode" placeholder='e.g. "SE1"' />
+            <input type="text" id="find-provider-postcode" name="postcode" placeholder='e.g. "SE1" or "Cambridge"' />
             <select name="distance" id="find-provider-distance">
                 <option value="5">within 5 miles</option>
                 <option value="10">within 10 miles</option>
@@ -75,8 +75,9 @@
             </select>
             <br />
             <div id="find-provider-clear-search-container">
+                <button type="submit" id="find-provider-submit">Search</button>
                 <a href="#" id="clear-search">Clear filter</a>&emsp;<a href="#" id="close-search">Close</a>
-            </div>
+            </div>            
         </form>
         <div id="providers-all"></div>
         <div id="scrollTo" class="loading-indicator">Loading results&hellip;</div>

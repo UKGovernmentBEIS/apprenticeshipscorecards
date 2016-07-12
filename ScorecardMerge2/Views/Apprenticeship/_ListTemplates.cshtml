@@ -14,11 +14,10 @@
         {{#distance}}
         <p>Distance: {{distance}} miles</p>
         {{/distance}}
+        {{#primary_subject}}
+        <p>{{primary_subject}}:</p>
+        {{/primary_subject}}
         <div class="graph-container empty" data-ukprn="{{ukprn}}"></div>
-        <p>{{number_apprenticeships}}+ subjects offered</p>
-        {{#address.latitude}} {{#address.longitude}}
-        <a class="prevent-propagation" href="http://www.google.com/maps?daddr={{address.latitude}},{{address.longitude}}" target="_blank">View on map</a>
-        {{/address.longitude}} {{/address.latitude}}
     </div>
     {{/.}}
 </script>
@@ -97,7 +96,18 @@
             {{/website}}
         </div>
     </div>
-    <h3>Subjects</h3>
+    <h3>Courses</h3>
+    <div id="subject-sortby-container">
+        <form>
+            <label for="subject-sortby">Sort by:</label>
+            <select name="subject-sortby" id="subject-sortby">
+                <option value="name">Name</option>
+                <option value="earnings" selected="selected">Future earnings</option>
+                <option value="satisfaction">Learner satisfaction</option>
+                <option value="passrate">Pass rate</option>
+            </select>
+        </form>
+    </div>
     <div id="subjects-all">
         {{#apprenticeships}}
         {{#subject_tier_2_code}}
