@@ -19,11 +19,7 @@ namespace ScorecardMerge2.Mediators
             _postCodesApiUrl = new Uri(postCodesApiUrl);
             _geocodeUrl = new Uri(geocodeUrl);
         }
-
-        //dev only constructor override
-        [Obsolete]
-        public ApprenticeshipMediator() : this("https://apprenticeship-scorecard-api.herokuapp.com/", "https://api.postcodes.io", "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBWXApe1GKBID177W1HdV4VdNOZfv2pMlY&region=GB&") { }
-
+        
         public object RetrieveProvidersJson(int page, string sortby, string subjectcode, string search, string postcode, int? distance)
         {
             string effectiveSubjectCode = String.IsNullOrEmpty(subjectcode) ? "0" : subjectcode;

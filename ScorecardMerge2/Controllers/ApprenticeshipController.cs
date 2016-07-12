@@ -5,13 +5,22 @@ using System.Web;
 using System.Web.Mvc;
 using ScorecardMerge2.Mediators;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 
 namespace ScorecardMerge2.Controllers
 {
     public class ApprenticeshipController : Controller
     {
-        private readonly ApprenticeshipMediator _mediator = new ApprenticeshipMediator();
+        private readonly ApprenticeshipMediator _mediator;
 
+        public ApprenticeshipController()
+        {
+            _mediator = new ApprenticeshipMediator(
+                WebConfigurationManager.AppSettings["APPSCORECARD_APIURL"],
+                WebConfigurationManager.AppSettings["APPSCORECARD_POSTCODEURL"],
+                string.Format("https://maps.googleapis.com/maps/api/geocode/json?key={0}&region=GB&",
+                    WebConfigurationManager.AppSettings["APPSCORECARD_GOOGLEAPI"]));
+        }
         // GET: Apprenticeship
         public ActionResult Index()
         {
