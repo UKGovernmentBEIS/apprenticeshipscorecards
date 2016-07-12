@@ -9,13 +9,19 @@ body {
 
 .body-content {
     background-color: #efefef;
+    padding-bottom: 5em;
+}
+
+.container {    
     max-width: none;
-    padding: 0 3em 5em;
+    padding-left: 3em;
+    padding-right: 3em;
 }
 
 @media screen and (max-width: 1000px) {
-    .body-content {
-        padding: 0 1em 5em;
+    .container {
+        padding-left: 1em;
+        padding-right:1em;
     }
 }
 
