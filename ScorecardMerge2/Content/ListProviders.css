@@ -81,13 +81,6 @@ body {
     box-shadow: rgba(0,0,0,0.1) 2px 2px;
 }
 
-@media screen and (max-width: 500px) {.singleProvider {width: 99%;}}
-@media screen and (min-width: 501px) and (max-width: 900px) {.singleProvider {width: 49%;}}
-@media screen and (min-width: 901px) and (max-width: 1300px) {.singleProvider {width: 32.33%;}}
-@media screen and (min-width: 1301px) and (max-width: 1700px) {.singleProvider {width: 24%;}}
-@media screen and (min-width: 1701px) {.singleProvider {width: 19%; max-width: 500px;}}
-/*@media screen and (min-width: 2101px) {.singleProvider, .singleSubject {width: 15%; max-width: 1000px;}}*/
-
 .singleSubject {
     background-color: #efefef;
     color: #111;
@@ -97,7 +90,6 @@ body {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
 
-    
     padding: 15px;
     margin: 0.5%;
     float:left;
@@ -105,12 +97,22 @@ body {
     box-shadow: rgba(0,0,0,0.1) 2px 2px;
 }
 
-@media screen and (max-width: 400px) {.singleSubject {width: 99%;}}
+@media screen and (max-width: 500px) {.singleProvider, .singleSubject {width: 99%;}}
+@media screen and (min-width: 501px) and (max-width: 750px) {.singleProvider, .singleSubject {width: 49%;}}
+@media screen and (min-width: 751px) and (max-width: 1000px) {.singleProvider, .singleSubject {width: 32.33%;}}
+@media screen and (min-width: 1001px) and (max-width: 1300px) {.singleProvider, .singleSubject {width: 24%;}}
+@media screen and (min-width: 1301px) and (max-width: 1600px) {.singleProvider, .singleSubject {width: 19%; max-width: 500px;}}
+@media screen and (min-width: 1601px) and (max-width: 2000px) {.singleProvider, .singleSubject {width: 15.5%; max-width: 1000px;}}
+@media screen and (min-width: 2001px) and (max-width: 2300px) {.singleProvider, .singleSubject {width: 13.2%; max-width: 1000px;}}
+@media screen and (min-width: 2301px) {.singleProvider, .singleSubject {width: 11.5%; max-width: 1000px;}}
+
+
+/*@media screen and (max-width: 400px) {.singleSubject {width: 99%;}}
 @media screen and (min-width: 401px) and (max-width: 700px) {.singleSubject {width: 49%;}}
 @media screen and (min-width: 701px) and (max-width: 1000px) {.singleSubject {width: 32.33%;}}
 @media screen and (min-width: 1001px) and (max-width: 1300px) { .singleSubject {width: 24%;}}
 @media screen and (min-width: 1301px) {.singleSubject {width: 19%; max-width: 400px;}}
-/*@media screen and (min-width: 2101px) {.singleProvider, .singleSubject {width: 15%; max-width: 1000px;}}*/
+@media screen and (min-width: 2101px) {.singleProvider, .singleSubject {width: 15%; max-width: 1000px;}}*/
 
 .singleProvider:hover {
     cursor: pointer;
