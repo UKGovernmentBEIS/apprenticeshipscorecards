@@ -25,9 +25,10 @@ namespace ScorecardMerge2.Mediators
             string effectiveSubjectCode = String.IsNullOrEmpty(subjectcode) ? "0" : subjectcode;
             string sortByField;
             bool reverse;
-            if (sortby == "name" || string.IsNullOrEmpty(sortby))
+            string additionalFilter = "";
+            if (sortby == "name")
             {
-                sortByField = "name";
+                sortByField = "provider.name";
                 reverse = false;
             }
             else if (sortby == "distance")
@@ -35,9 +36,25 @@ namespace ScorecardMerge2.Mediators
                 sortByField = "distance";
                 reverse = false;
             }
+            else if (sortby == "earnings" || string.IsNullOrEmpty(sortby))
+            {
+                sortByField = "earnings.median";
+                reverse = true;
+                additionalFilter = " and earnings.median>-1";
+            }
+            else if (sortby == "satisfaction")
+            {
+                sortByField = "learner_stats.satisfaction";
+                reverse = true;
+                additionalFilter = " and learner_stats.satisfaction>-1";
+            } else if (sortby == "passrate")
+            {
+                sortByField = "stats.success_rate";
+                reverse = true;
+                additionalFilter = " and stats.success_rate>-1";
+            }
             else
             {
-                // TODO: implement other sort orders
                 throw new NotImplementedException();
             }
 
@@ -54,53 +71,44 @@ namespace ScorecardMerge2.Mediators
                     locationFound = true;
                 } else if (sortByField == "distance")
                 {
-                    sortByField = "name";
+                    sortByField = "earnings.median";
+                    reverse = true;
                 }
             }
 
             var endpoint = String.IsNullOrEmpty(search)
-                ? string.Format("providers/search?page_size=20&page_number={0}&sort_by={1}&reverse={2}&query=apprenticeships.subject_tier_2_code={3}", page, sortByField, reverse, effectiveSubjectCode)
-                : string.Format("providers/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}&query=apprenticeships.subject_tier_2_code={4}", search, page, sortByField, reverse, effectiveSubjectCode);
+                ? string.Format("apprenticeships/search?page_size=20&page_number={0}&sort_by={1}&reverse={2}&query=subject_tier_2_code={3}{4}", page, sortByField, reverse? "true" : "false" , effectiveSubjectCode, additionalFilter)
+                : string.Format("apprenticeships/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}&query=subject_tier_2_code={4}{5}", search, page, sortByField, reverse ? "true" : "false", effectiveSubjectCode, additionalFilter);
 
             endpoint = endpoint + locationAppendix;
 
             var jsonString = RequestJson(endpoint);
 
-            var providers = JObject.Parse(jsonString);
+            var ships = JObject.Parse(jsonString);
             var end = false;
-            if (providers["results"].Count() == 0 || (int)providers["page_number"] < page)
+            if (ships["results"].Count() == 0 || (int)ships["page_number"] < page)
             {
                 // we reached the end of the data set - don't append duplicates.
                 return new {
-                    providers = new {
+                    apprenticeships = new {
                         results = new object[0],
-                        totalcount = (int)providers["total_results"],
+                        totalcount = (int)ships["total_results"],
                         locationname = locationFound ? locationName : null},
                     end = true,
                     location = locationFound };
             }
 
-            if ((int)providers["items_per_page"] > providers["results"].Count())
+            if ((int)ships["items_per_page"] > ships["results"].Count())
             {
                 // reached the end of the data set - don't show loading indicator anymore
                 end = true;
             }
 
-            foreach (var x in providers["results"])
-            {
-                x["number_apprenticeships"] = x["apprenticeships"].Where(y => (string) y["subject_tier_code"] != "0").Count();
-                x["apprenticeships"] = JToken.FromObject(x["apprenticeships"].Where(y => (string)y["subject_tier_2_code"] == effectiveSubjectCode));
-                if (effectiveSubjectCode != "0")
-                {
-                    x["primary_subject"] = x["apprenticeships"][0]["subject_tier_2_title"];
-                }
-            }
-
             var res = new JObject();
-            res["providers"] = new JObject();
-            res["providers"]["results"] = providers["results"];
-            res["providers"]["totalcount"] = providers["total_results"];
-            if (locationFound) { res["providers"]["locationname"] = locationName; }
+            res["apprenticeships"] = new JObject();
+            res["apprenticeships"]["results"] = ships["results"];
+            res["apprenticeships"]["totalcount"] = ships["total_results"];
+            if (locationFound) { res["apprenticeships"]["locationname"] = locationName; }
             res["end"] = end;
             res["location"] = locationFound;
             

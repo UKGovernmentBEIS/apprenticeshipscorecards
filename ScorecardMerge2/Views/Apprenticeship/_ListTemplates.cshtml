@@ -10,11 +10,11 @@
         <form>
             <label for="sortby">Sort by:</label>
             <select name="sortby" id="sortby">
-                <option value="name" selected="selected">Name</option>
+                <option value="name" >Name</option>
                 <option value="distance" disabled="disabled">Distance</option>
-                <option value="earnings" disabled="disabled">Future earnings</option>
-                <option value="satisfaction" disabled="disabled">Learner satisfaction</option>
-                <option value="passrate" disabled="disabled">Pass rate</option>
+                <option value="earnings" selected="selected">Future earnings</option>
+                <option value="satisfaction" >Learner satisfaction</option>
+                <option value="passrate" >Pass rate</option>
             </select>
         </form>
     </div>
@@ -34,14 +34,14 @@
 </script>
 <script id="bunchOfProviders-template" type="x-tmpl-mustache">
     {{#.}}
-    <div class="singleProvider get-providerdetails" data-ukprn="{{ukprn}}">
+    <div class="singleProvider get-providerdetails" data-ukprn="{{provider_id}}">
         <h1>
-            <a href="#provider={{ukprn}}" class="get-providerdetails" data-ukprn="{{ukprn}}">{{name}}</a>
+            <a href="#provider={{provider_id}}" class="get-providerdetails" data-ukprn="{{provider_id}}">{{provider.name}}</a>
         </h1>
         {{#distance}}
         <p>Distance: {{distance}} miles</p>
         {{/distance}}
-        <div class="graph-container empty" data-ukprn="{{ukprn}}"></div>
+        <div class="graph-container empty" data-ukprn="{{provider_id}}"></div>
     </div>
     {{/.}}
 </script>
