@@ -69,12 +69,23 @@
     <p class="bignumberbaseline">{{noDataDescriptor}}</p>
 </script>
 <script id="providerDetails-template" type="x-tmpl-mustache">
-    <h2>{{name}}</h2>
-    <a href="#" class="mode-main">Go back</a>
+    <h2>
+        {{#subjectmode}}
+        {{primary.subject_tier_2_title}} at
+        {{/subjectmode}}
+        {{name}}        
+    </h2>
+    <a href="#" class="mode-main">Search</a>&ensp;&rsaquo;&ensp;
+    {{#subjectmode}}
+        <a href="#" class="setsubject">{{name}}</a>&ensp;&rsaquo;&ensp;
+        <span>{{primary.subject_tier_2_title}}</span>
+    {{/subjectmode}}
+    {{^subjectmode}}
+        <span>{{name}}</span>
+    {{/subjectmode}}
     <div class="flex-container">
         <div class="flex-2">
-            {{#apprenticeships}}
-            {{^subject_tier_2_code}}
+            {{#primary}}
             <h3>Quick facts</h3>
             <ul class="quickfacts">
                 {{^performanceData.0.noData}}
@@ -95,9 +106,7 @@
                 {{/learner_stats.total}}
                 
             </ul>
-            <!--<div class="graph-container empty" style="max-width: 400px" data-ukprn="{{ukprn}}"></div>-->
-            {{/subject_tier_2_code}}
-            {{/apprenticeships}}
+            {{/primary}}
         </div>
         <div class="flex-1">
             <div class="address">
@@ -120,7 +129,14 @@
             {{/website}}
         </div>
     </div>
-    <h3>Courses</h3>
+    <h3>
+        {{#subjectmode}}
+        All courses by this provider
+        {{/subjectmode}}
+        {{^subjectmode}}
+        Courses
+        {{/subjectmode}}
+    </h3>
     <div id="subject-sortby-container">
         <form>
             <label for="subject-sortby">Sort by:</label>
@@ -136,7 +152,7 @@
         {{#apprenticeships}}
         {{#subject_tier_2_code}}
         <div class="singleSubject">
-            <h1>{{subject_tier_2_title}}</h1>
+            <h1><a href="#" class="setsubject" data-subjectcode="{{subject_tier_2_code}}">{{subject_tier_2_title}}</a></h1>
             <div class="graph-container empty" data-ukprn="{{ukprn}}" data-subjectcode="{{subject_tier_2_code}}"></div>
         </div>
         {{/subject_tier_2_code}}

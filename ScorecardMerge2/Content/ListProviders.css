@@ -144,11 +144,11 @@ body {
     overflow:hidden;
 }
 
-a.get-providerdetails {
+a.get-providerdetails, .singleSubject a.setsubject {
     color: #111;
     text-decoration:underline;
 }
-a.get-providerdetails:hover{
+a.get-providerdetails:hover .singleSubject a.setsubject:hover {
     text-decoration:none;
 }
 
