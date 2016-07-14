@@ -50,6 +50,17 @@ body {
     margin-top: 20px;
 }
 
+.searchsummary {
+    padding-top: 25px;
+}
+
+#clear-search {
+    visibility:hidden;
+}
+#clear-search.shown {
+    visibility:initial;
+}
+
 /*details page*/
 .quickfacts {
     padding-left: 20px;

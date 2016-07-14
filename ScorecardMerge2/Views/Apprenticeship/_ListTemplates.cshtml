@@ -6,12 +6,6 @@
     <div class="label-value">{{value}}</div>
 </script>
 <script id="bunchOfProviders-template" type="x-tmpl-mustache">
-    {{#subjectname}}
-    <h2>{{totalcount}} {{subjectname}} course(s){{#locationname}} near {{locationname}}{{/locationname}}</h2>
-    {{/subjectname}}
-    {{^subjectname}}
-    <h2>{{totalcount}} training provider(s){{#locationname}} near {{locationname}}{{/locationname}}</h2>
-    {{/subjectname}}
     <div id="sortby-container">
         <form>
             <label for="sortby">Sort by:</label>
@@ -24,7 +18,18 @@
             </select>
         </form>
     </div>
-    <a href="#" id="clear-search">Clear filter</a><br/>
+    <h3 class="searchsummary">
+        {{#subjectname}}
+            {{totalcount}} {{subjectname}} course(s)
+        {{/subjectname}}
+        {{^subjectname}}
+            {{totalcount}} training provider(s)
+        {{/subjectname}}
+        {{#locationname}} 
+            near {{locationname}}
+        {{/locationname}}
+    </h3>
+    <a href="#" id="clear-search" {{#searchset}}class="shown"{{/searchset}}>Clear filter</a><br/>
     {{#results}}
     <div class="singleProvider get-providerdetails" data-ukprn="{{ukprn}}">
         <h1>
