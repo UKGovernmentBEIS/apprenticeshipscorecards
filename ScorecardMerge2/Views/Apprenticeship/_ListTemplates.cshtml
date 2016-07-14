@@ -151,7 +151,7 @@
     <div id="subjects-all">
         {{#apprenticeships}}
         {{#subject_tier_2_code}}
-        <div class="singleSubject">
+        <div class="singleSubject setsubject" data-subjectcode="{{subject_tier_2_code}}">
             <h1><a href="#" class="setsubject" data-subjectcode="{{subject_tier_2_code}}">{{subject_tier_2_title}}</a></h1>
             <div class="graph-container empty" data-ukprn="{{ukprn}}" data-subjectcode="{{subject_tier_2_code}}"></div>
         </div>

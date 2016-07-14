@@ -120,7 +120,7 @@ body {
 @media screen and (min-width: 1301px) {.singleSubject {width: 19%; max-width: 400px;}}
 @media screen and (min-width: 2101px) {.singleProvider, .singleSubject {width: 15%; max-width: 1000px;}}*/
 
-.singleProvider:hover {
+.singleProvider:hover, .singleSubject:hover {
     cursor: pointer;
     box-shadow: rgba(0,0,0,0.1) 4px 4px;
 }
