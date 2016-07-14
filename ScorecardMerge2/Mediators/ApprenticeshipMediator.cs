@@ -43,10 +43,12 @@ namespace ScorecardMerge2.Mediators
 
             
             var locationFound = false;
+            string locationName = null;
             string locationAppendix = "";
+
             if (!String.IsNullOrEmpty(postcode) && distance.HasValue)
             {
-                locationAppendix = GetLocationQueryAppendix(postcode, distance.Value);
+                locationAppendix = GetLocationQueryAppendix(postcode, distance.Value, out locationName);
                 if (!string.IsNullOrEmpty(locationAppendix))
                 {
                     locationFound = true;
@@ -89,17 +91,20 @@ namespace ScorecardMerge2.Mediators
             }
 
             var res = new JObject();
-            res["providers"] = providers["results"]; 
+            res["providers"] = new JObject();
+            res["providers"]["results"] = providers["results"];
+            res["providers"]["totalcount"] = providers["total_results"];
+            if (locationFound) { res["providers"]["locationname"] = locationName; }
             res["end"] = end;
             res["location"] = locationFound;
             
             return new JavaScriptSerializer().DeserializeObject(res.ToString());
         }
 
-        private string GetLocationQueryAppendix(string postcode, int distance)
+        private string GetLocationQueryAppendix(string postcode, int distance, out string locationName)
         {
             double latitude, longitude;
-            ResolveAddress(postcode, out latitude, out longitude);
+            locationName = ResolveAddress(postcode, out latitude, out longitude);
             if (!double.IsNaN(latitude) && !double.IsNaN(longitude))
             {
                 return String.Format("&lon={0}&lat={1}&dist={2}",
@@ -112,7 +117,7 @@ namespace ScorecardMerge2.Mediators
 
         }
 
-        private void ResolveAddress(string postcode, out double latitude, out double longitude)
+        private string ResolveAddress(string postcode, out double latitude, out double longitude)
         {
 
             var endpoint = string.Format("{0}address={1}", _geocodeUrl, postcode);
@@ -131,7 +136,7 @@ namespace ScorecardMerge2.Mediators
                         var match = result["results"][0]["geometry"]["location"];
                         longitude = (double) match["lng"];
                         latitude = (double)match["lat"];
-                        return;
+                        return (string) result["results"][0]["formatted_address"];
                     }
                 }
             }
@@ -139,7 +144,7 @@ namespace ScorecardMerge2.Mediators
             {
                 longitude = double.NaN;
                 latitude = double.NaN;
-                return;
+                return null;
             }
         }
 

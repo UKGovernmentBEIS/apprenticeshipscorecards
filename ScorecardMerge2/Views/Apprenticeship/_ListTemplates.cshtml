@@ -6,7 +6,14 @@
     <div class="label-value">{{value}}</div>
 </script>
 <script id="bunchOfProviders-template" type="x-tmpl-mustache">
-    {{#.}}
+    {{#subjectname}}
+    <h2>{{totalcount}} {{subjectname}} course(s){{#locationname}} near {{locationname}}{{/locationname}}</h2>
+    {{/subjectname}}
+    {{^subjectname}}
+    <h2>{{totalcount}} training provider(s){{#locationname}} near {{locationname}}{{/locationname}}</h2>
+    {{/subjectname}}
+    <a href="#" id="clear-search">Clear filter</a><br/>
+    {{#results}}
     <div class="singleProvider get-providerdetails" data-ukprn="{{ukprn}}">
         <h1>
             <a href="#{{ukprn}}" class="get-providerdetails" data-ukprn="{{ukprn}}">{{name}}</a>
@@ -14,12 +21,9 @@
         {{#distance}}
         <p>Distance: {{distance}} miles</p>
         {{/distance}}
-        {{#primary_subject}}
-        <p>{{primary_subject}}:</p>
-        {{/primary_subject}}
         <div class="graph-container empty" data-ukprn="{{ukprn}}"></div>
     </div>
-    {{/.}}
+    {{/results}}
 </script>
 
 <script id="earningsTooltip-template" type="x-tmpl-mustache">
@@ -112,7 +116,7 @@
         {{#apprenticeships}}
         {{#subject_tier_2_code}}
         <div class="singleSubject">
-            <h1>{{subject_tier_2_code}}: {{subject_tier_2_title}}</h1>
+            <h1>{{subject_tier_2_title}}</h1>
             <div class="graph-container empty" data-ukprn="{{ukprn}}" data-subjectcode="{{subject_tier_2_code}}"></div>
         </div>
         {{/subject_tier_2_code}}
