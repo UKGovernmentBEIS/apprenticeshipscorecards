@@ -8,7 +8,7 @@ body {
 }
 
 .body-content {
-    background-color: #efefef;
+    background-color: white;
     padding-bottom: 5em;
 }
 
@@ -23,12 +23,6 @@ body {
         padding-left: 1em;
         padding-right:1em;
     }
-}
-
-
-
-.body-content[mode="view-details"] {
-    background-color: white;
 }
 
 #providers-container, #details-container {
@@ -53,7 +47,7 @@ body {
 }
 
 #providers-all {
-        margin-top: 20px;
+    margin-top: 20px;
 }
 
 /*details page*/
@@ -69,6 +63,7 @@ body {
 
 .singleProvider {
     background-color: white;
+    border: 1px solid rgba(0,0,0,0.1);
     border-radius: 12px;
     -moz-border-radius: 12px;
     -webkit-border-radius: 12px;
@@ -180,42 +175,12 @@ a.get-providerdetails:hover{
     margin-top: 0;
     margin-right: 1%;
     background-color: white;
-    max-height: 0;   
     overflow:hidden;
     padding:0;
     clear:both;
     
-    padding:0 3em;
-    padding-top:0;
-    padding-bottom:0;
-    
-    transition-duration: 0.6s;
-    transition-timing-function: ease-in-out;
-}
-#find-provider.active {
-    max-height:500px;
-    padding-top:2em;
-    padding-bottom:2em;
-    margin-bottom:10px;
-    border-bottom: 2px solid gainsboro;
-}
-
-#menu-button {
-    background-color:white;
-    border: 2px solid gainsboro;
-    float:right;
-    margin-right: 5%;
-    margin-top: 20px;
-
-    padding: 4px 25px;
-    cursor:pointer;
-    user-select:none;
-}
-
-#menu-button.active {
-    border-bottom:none;
-    margin-bottom: 0;
-    padding-bottom: 17px;
+    padding:2em 0;
+    margin-bottom: 20px;
 }
 
 input, select {
