@@ -45,9 +45,9 @@ namespace ScorecardMerge2.Controllers
         }
 
         // POST: ProviderData
-        public JsonResult ProviderData(int ukprn)
+        public JsonResult ProviderData(int ukprn, string subjectcode)
         {
-            var jsonObject = _mediator.RetrieveProviderDetail(ukprn);
+            var jsonObject = _mediator.RetrieveProviderDetail(ukprn, subjectcode ?? "0");
             return Json(jsonObject);
         }
     }

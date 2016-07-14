@@ -199,12 +199,18 @@ namespace ScorecardMerge2.Mediators
             }
         }
 
-        public object RetrieveProviderDetail(int ukprn)
+        public object RetrieveProviderDetail(int ukprn, string primarySubject)
         {
-
-            var providerEndpoint = string.Format("providers/{0}", ukprn);
-            var json = RequestJson(providerEndpoint);
-            return new JavaScriptSerializer().DeserializeObject(json);
+            var sanitisedPrimary = string.IsNullOrEmpty(primarySubject) ? "0" : primarySubject;
+            var apprenticeshipsJson = string.Format("apprenticeships?query=provider_id={0}", ukprn);
+            var ships = JObject.Parse(RequestJson(apprenticeshipsJson));
+            if (ships["results"].Count() == 0) {
+                return new { };
+            }
+            var provider = ships["results"][0]["provider"].DeepClone();
+            provider["apprenticeships"] = ships["results"];
+            provider["primary"] = ships["results"].First(x => (string)x["subject_tier_2_code"] == sanitisedPrimary);
+            return new JavaScriptSerializer().DeserializeObject(provider.ToString());
         }
         
         private string RequestJson(string endpoint)
