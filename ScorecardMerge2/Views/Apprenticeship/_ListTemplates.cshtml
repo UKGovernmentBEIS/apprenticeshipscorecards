@@ -5,7 +5,7 @@
     <div class="label-name">{{name}}</div>
     <div class="label-value">{{value}}</div>
 </script>
-<script id="bunchOfProviders-template" type="x-tmpl-mustache">
+<script id="providerresultsheader-template" type="x-tmpl-mustache">
     <div id="sortby-container">
         <form>
             <label for="sortby">Sort by:</label>
@@ -20,17 +20,20 @@
     </div>
     <h3 class="searchsummary">
         {{#subjectname}}
-            {{totalcount}} {{subjectname}} course(s)
+        {{totalcount}} {{subjectname}} course(s)
         {{/subjectname}}
         {{^subjectname}}
-            {{totalcount}} training provider(s)
+        {{totalcount}} training provider(s)
         {{/subjectname}}
-        {{#locationname}} 
-            near {{locationname}}
+        {{#locationname}}
+        near {{locationname}}
         {{/locationname}}
     </h3>
-    <a href="#" id="clear-search" {{#searchset}}class="shown"{{/searchset}}>Clear filter</a><br/>
-    {{#results}}
+    <a href="#" id="clear-search" {{#searchset}} class="shown" {{/searchset}}>Clear filter</a>
+    <br />
+</script>
+<script id="bunchOfProviders-template" type="x-tmpl-mustache">
+    {{#.}}
     <div class="singleProvider get-providerdetails" data-ukprn="{{ukprn}}">
         <h1>
             <a href="#{{ukprn}}" class="get-providerdetails" data-ukprn="{{ukprn}}">{{name}}</a>
@@ -40,7 +43,7 @@
         {{/distance}}
         <div class="graph-container empty" data-ukprn="{{ukprn}}"></div>
     </div>
-    {{/results}}
+    {{/.}}
 </script>
 
 <script id="earningsTooltip-template" type="x-tmpl-mustache">

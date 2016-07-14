@@ -71,7 +71,13 @@ namespace ScorecardMerge2.Mediators
             if (providers["results"].Count() == 0 || (int)providers["page_number"] < page)
             {
                 // we reached the end of the data set - don't append duplicates.
-                return new { providers = new object[0], end = true, location = locationFound };
+                return new {
+                    providers = new {
+                        results = new object[0],
+                        totalcount = (int)providers["total_results"],
+                        locationname = locationFound ? locationName : null},
+                    end = true,
+                    location = locationFound };
             }
 
             if ((int)providers["items_per_page"] > providers["results"].Count())
