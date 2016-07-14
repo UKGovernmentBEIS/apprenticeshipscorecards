@@ -139,7 +139,7 @@ body {
     padding-top: 0;
     margin-top: 0;
     font-size: 1.2em;
-    height:60px;
+    height:57px;
     text-overflow:ellipsis;
     overflow:hidden;
 }
@@ -157,7 +157,7 @@ a.get-providerdetails:hover{
     align-content:center;
     text-align:center;
     border: solid 2px #aaaaaa;
-    margin: 30px 0.5% ;
+    margin: 30px 0.5% 30em;
     padding: 20px;
     clear:both;    
     border-radius: 5px;
