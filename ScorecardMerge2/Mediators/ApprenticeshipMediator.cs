@@ -25,7 +25,6 @@ namespace ScorecardMerge2.Mediators
             string effectiveSubjectCode = String.IsNullOrEmpty(subjectcode) ? "0" : subjectcode;
             string sortByField;
             bool reverse;
-            string additionalFilter = "";
             if (sortby == "name")
             {
                 sortByField = "provider.name";
@@ -40,18 +39,15 @@ namespace ScorecardMerge2.Mediators
             {
                 sortByField = "earnings.median";
                 reverse = true;
-                additionalFilter = " and earnings.median>-1";
             }
             else if (sortby == "satisfaction")
             {
                 sortByField = "learner_stats.satisfaction";
                 reverse = true;
-                additionalFilter = " and learner_stats.satisfaction>-1";
             } else if (sortby == "passrate")
             {
                 sortByField = "stats.success_rate";
                 reverse = true;
-                additionalFilter = " and stats.success_rate>-1";
             }
             else
             {
@@ -77,8 +73,8 @@ namespace ScorecardMerge2.Mediators
             }
 
             var endpoint = String.IsNullOrEmpty(search)
-                ? string.Format("apprenticeships/search?page_size=20&page_number={0}&sort_by={1}&reverse={2}&query=subject_tier_2_code={3}{4}", page, sortByField, reverse? "true" : "false" , effectiveSubjectCode, additionalFilter)
-                : string.Format("apprenticeships/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}&query=subject_tier_2_code={4}{5}", search, page, sortByField, reverse ? "true" : "false", effectiveSubjectCode, additionalFilter);
+                ? string.Format("apprenticeships/search?page_size=20&page_number={0}&sort_by={1}&reverse={2}&query=subject_tier_2_code={3}", page, sortByField, reverse? "true" : "false" , effectiveSubjectCode)
+                : string.Format("apprenticeships/search?page_size=20&phrase={0}&page_number={1}&sort_by={2}&reverse={3}&query=subject_tier_2_code={4}", search, page, sortByField, reverse ? "true" : "false", effectiveSubjectCode);
 
             endpoint = endpoint + locationAppendix;
 
