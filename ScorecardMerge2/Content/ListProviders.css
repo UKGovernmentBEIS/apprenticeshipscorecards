@@ -196,21 +196,33 @@ a.get-providerdetails:hover .singleSubject a.setsubject:hover {
 
 input, select {
     display: inline;
-    border-radius: 5px;
+    /*/border-radius: 5px;
     -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    -webkit-border-radius: 5px;*/
     width: 70%;
-    border: 2px solid rgb(170, 170, 170);
-    padding: 5px;
-    margin: 5px;
+    border: 2px solid #555;
+    padding: 15px;
+    margin: 0px 5px 15px;
+}
+
+input:focus, select:focus, #find-provider-submit:focus {
+    outline: 3px solid #ffbf47;
 }
 
 #find-provider-submit {
-    margin-right:20px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    padding:5px 20px;
+    background-color: #00823b;
+    color:#fff;
+    border:none;
+    box-shadow: 0 2px 0 #003618;
+    font-size:1.5em;
+    line-height:1;
+    cursor:pointer;
+    padding:10px 20px;
+    min-width: 200px;
+}
+
+#find-provider-submit:hover {
+    background-color: #00692f;
 }
 
 
@@ -219,7 +231,9 @@ input, select {
 }
 
 #find-provider label {
-    margin: 10px 5px 0px;
+    margin: 15px 5px 5px;
+    font-weight: normal;
+    font-size:16px;
 }
 
 #find-provider-clear-search-container {
