@@ -86,7 +86,11 @@
     <div class="flex-container">
         <div class="flex-2">
             {{#primary}}
-            <h3>Quick facts</h3>
+            <div class="singleSubject setsubject" style="width:250px; margin: 20px 0" data-subjectcode="{{subject_tier_2_code}}">
+                <h1><a href="#" class="setsubject" data-subjectcode="{{subject_tier_2_code}}">{{subject_tier_2_title}}</a></h1>
+                <div class="graph-container empty" data-ukprn="{{ukprn}}" data-subjectcode="{{subject_tier_2_code}}"></div>
+            </div>
+            <h3 style="clear:both">Quick facts</h3>
             <ul class="quickfacts">
                 {{^performanceData.0.noData}}
                 <li>Training graduates go on to earn an average of {{performanceData.0.valueFormatted}} p/a.</li>
@@ -129,13 +133,9 @@
             {{/website}}
         </div>
     </div>
+    {{^subjectmode}}
     <h3>
-        {{#subjectmode}}
-        All courses by this provider
-        {{/subjectmode}}
-        {{^subjectmode}}
         Courses
-        {{/subjectmode}}
     </h3>
     <div id="subject-sortby-container">
         <form>
@@ -158,4 +158,5 @@
         {{/subject_tier_2_code}}
         {{/apprenticeships}}
     </div>
+    {{/subjectmode}}
 </script>
