@@ -215,7 +215,8 @@ function GetLocationQueryAppendix(postcode, distance, callback)
 
 function retrieveProviderDetail(params, callback)
 {
-    var sanitisedPrimary = params.subject || "0";
+    console.log(params);
+    var sanitisedPrimary = params.subjectcode || "0";
     var apprenticeshipsJson = "apprenticeships?query=provider_id="+ params.ukprn;
     getJson(_apiHost + apprenticeshipsJson, function(ships) {
         if (ships["results"].length === 0) {
