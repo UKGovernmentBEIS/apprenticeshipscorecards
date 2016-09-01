@@ -25,7 +25,18 @@
     <div class="container body-content">
         <div id="main-container" mode="main">
             <div id="providers-container">
-                <h2 id="listtitle" style="float: left">Apprenticeship training providers</h2>
+                <h2 id="listtitle">Apprenticeship training providers</h2>
+                <p>
+                    Use the apprenticeship scorecard to find data about training providers and courses, including:
+                    <ul>
+                        <li>apprentice earnings five years after they complete their apprenticeships</li>
+                        <li>the proportion of apprentices who achieve a qualification</li>
+                        <li>learner satisfaction scores for courses and training providers</li>
+                    </ul>
+                </p>
+                <p>
+                    <a href="#" class="mode-about">Learn more&hellip;</a>
+                </p>
                 <form id="find-provider">
                     <label for="subject">Course</label>
                     <br />
@@ -89,6 +100,27 @@
             </div>
             <div id="details-container">
                 <div class="loading-indicator">Loading, please wait&hellip;</div>
+            </div>
+            <div id="about-container">
+                <h2>About the apprenticeship scorecard</h2>
+                <p>The apprenticeship scorecard gives data about training providers and the courses they offer. The data shows:</p>
+                <ul>
+                    <li>apprentice earnings five years after they complete their apprenticeships</li>
+                    <li>the proportion of apprentices who achieve a qualification</li>
+                    <li>learner satisfaction scores for courses and training providers</li>
+                </ul>
+                <p>The salary data shows what people earned after they completed their apprenticeships. Other factors apart from training may affect earnings, such as previous employment history.</p>
+                <p>Prospective learners can use the data to help choose the right training for them. It currently relates only to apprenticeship training. It will be expanded to other forms of learning in future.</p>
+                <p>This is a new site – [your feedback](mailto:EMAIL ADDRESS) will help us improve it.</p>
+
+                <h2>More information</h2>
+                <p>Find out <a>how the statistics on this site are created</a>.</p>
+                <p>Access the <a>API that contains the data</a>.</p>
+                <p>See <a href="https://www.gov.uk/government/publications/further-education-comparing-labour-market-economic-benefits-from-qualifications-gained">other research</a> on the economic benefit of further education qualifications for individuals.</p>
+
+                <p>
+                    <a href="#" class="mode-main">Go back</a>
+                </p>
             </div>
         </div>
 
@@ -155,20 +187,20 @@
 
     <script id="earningsTooltip-template" type="x-tmpl-mustache">
         <p class="bignumber">{{valueFormatted}}</p>
-        <p class="bignumbercaption">average earnings five years after completion.</p>
+        <p class="bignumbercaption">Average pay five years after training ended.</p>
         <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} {{moreorless}}</span> than the national average.</p>
     </script>
 
     <script id="satisfactionTooltip-template" type="x-tmpl-mustache">
         <p class="bignumber">{{valueFormatted}}</p>
-        <p class="bignumbercaption">average score given to this {{elementdescriptor}} by learners.</p>
-        <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
+        <p class="bignumbercaption">Average score (out of 100) that learners gave this {{elementdescriptor}}.</p>
+        <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} percentage points {{higherorlower}}</span> than the national average.</p>
     </script>
 
     <script id="passrateTooltip-template" type="x-tmpl-mustache">
         <p class="bignumber">{{valueFormatted}}</p>
-        <p class="bignumbercaption">of learners complete their education {{inorwith}} this {{elementdescriptor}}.</p>
-        <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
+        <p class="bignumbercaption">The percentage of learners who completed their training {{inorwith}} this {{elementdescriptor}}.</p>
+        <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} percentage points {{higherorlower}}</span> than the national average.</p>
     </script>
 
     <script id="nodataTooltip-template" type="x-tmpl-mustache">
@@ -200,20 +232,20 @@
                 <h3 style="clear:both">Quick facts</h3>
                 <ul class="quickfacts">
                     {{^performanceData.0.noData}}
-                    <li>Training graduates go on to earn an average of {{performanceData.0.valueFormatted}} p/a.</li>
+                    <li>Five years after finishing training, apprentices earned an average of {{performanceData.0.valueFormatted}} a year.</li>
                     {{/performanceData.0.noData}}
                     {{#earnings.percentage_above_21k}}
-                    <li>{{earnings.percentage_above_21k}}% of graduates earn over &pound;21,000 p/a.</li>
+                    <li>Five years after finishing training, {{earnings.percentage_above_21k}}% of apprentices earned over £21,000 a year.</li>
                     {{/earnings.percentage_above_21k}}
                     {{^performanceData.2.noData}}
-                    <li>{{performanceData.2.valueFormatted}} of learners complete their education with this training provider.</li>
+                    <li>{{performanceData.2.valueFormatted}} of learners complete their training with this provider.</li>
                     {{/performanceData.2.noData}}
                     {{^performanceData.1.noData}}
-                    <li>Training graduates rate this training provider {{performanceData.1.valueFormatted}} out of 10.</li>
+                    <li>{{performanceData.1.valueFormatted}} of learners would recommend this training provider to their friends or family.</li>
                     {{/performanceData.1.noData}}
                     {{#learner_stats.total}}
                     <li>
-                        There are {{learner_stats.total}} learners with this training provider{{#learner_stats.age_25_plus}}, {{learner_stats.age_25_plus}} of which are aged 25 or older{{/learner_stats.age_25_plus}}.
+                        In the last academic year there were {{learner_stats.total}} learners having apprenticeship training with this provider, and {{#learner_stats.age_25_plus}} of them were aged 25 or over.
                     </li>
                     {{/learner_stats.total}}
 

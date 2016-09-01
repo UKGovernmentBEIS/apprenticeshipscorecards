@@ -25,7 +25,7 @@ body {
     }
 }
 
-#providers-container, #details-container {
+#providers-container, #details-container, #about-container {
     display:none;
 }
 .body-content[mode="main"] #providers-container {
@@ -33,6 +33,9 @@ body {
 }
 
 .body-content[mode="view-details"] #details-container {
+    display:inherit;
+}
+.body-content[mode="about"] #about-container {
     display:inherit;
 }
 
