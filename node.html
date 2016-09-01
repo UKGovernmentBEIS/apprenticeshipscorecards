@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link rel="shortcut icon" type="image/ico" href="~/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprenticeship Scorecards</title>
+    <link rel="stylesheet" href="/Content/bootstrap.css" type="text/css">    
+    <link rel="stylesheet" href="/Content/Site.css" type="text/css" >
+    <link rel="stylesheet" href="/Content/ListProviders.css" type="text/css">
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">Apprenticeship Scorecards</a>
+            </div>
+            <div class="navbar-collapse collapse">
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div id="main-container" mode="main">
+            <div id="providers-container">
+                <h2 id="listtitle" style="float: left">Apprenticeship training providers</h2>
+                <form id="find-provider">
+                    <label for="subject">Course</label>
+                    <br />
+                    <select name="subject" id="find-provider-subject">
+                        <option value="0" selected="selected">Any course</option>
+                        <option value="15.1">Accounting and Finance</option>
+                        <option value="15.2">Administration</option>
+                        <option value="3.1">Agriculture</option>
+                        <option value="3.3">Animal Care and Veterinary Science</option>
+                        <option value="5.2">Building and Construction</option>
+                        <option value="15.3">Business management</option>
+                        <option value="1.5">Child Development and Well Being</option>
+                        <option value="9.2">Crafts, Creative Arts and Design</option>
+                        <option value="13.2">Direct Learning Support</option>
+                        <option value="4.1">Engineering</option>
+                        <option value="3.4">Environmental Conservation</option>
+                        <option value="1.3">Health and Social Care</option>
+                        <option value="3.2">Horticulture and Forestry</option>
+                        <option value="7.4">Hospitality and Catering</option>
+                        <option value="6.2">ICT for Users</option>
+                        <option value="6.1">ICT Practitioners</option>
+                        <option value="4.2">Manufacturing Technologies</option>
+                        <option value="15.4">Marketing and Sales</option>
+                        <option value="9.3">Media and Communication</option>
+                        <option value="1.2">Nursing and Subjects and Vocations Allied to Medicine</option>
+                        <option value="1.4">Public Services</option>
+                        <option value="9.4">Publishing and Information Services</option>
+                        <option value="7.1">Retailing and Wholesaling</option>
+                        <option value="2.1">Science</option>
+                        <option value="7.3">Service Enterprises</option>
+                        <option value="8.1">Sport, Leisure and Recreation</option>
+                        <option value="13.1">Teaching and Lecturing</option>
+                        <option value="4.3">Transportation Operations and Maintenance</option>
+                        <option value="8.2">Travel and Tourism</option>
+                        <option value="7.2">Warehousing and Distribution</option>
+                    </select>
+                    <br />
+                    <label for="provider">Provider name (optional)</label>
+                    <br />
+                    <input type="text" id="find-provider-provider" name="provider" />
+                    <br />
+                    <label for="postcode">Town or post code (optional)</label>
+                    <br />
+                    <input type="text" id="find-provider-postcode" name="postcode" />
+                    <select name="distance" id="find-provider-distance">
+                        <option value="5">within 5 miles</option>
+                        <option value="10">within 10 miles</option>
+                        <option value="15">within 15 miles</option>
+                        <option value="20">within 20 miles</option>
+                        <option value="40">within 40 miles</option>
+                    </select>
+                    <br />
+                    <div id="find-provider-clear-search-container">
+                        <button type="submit" id="find-provider-submit">Search</button>
+                    </div>
+                </form>
+                <div id="providerresultsheader"></div>
+                <div id="providers-all"></div>
+                <div id="scrollTo" class="loading-indicator">Loading results&hellip;</div>
+                <div id="noResults" class="loading-indicator" style="display:none">No results found.</div>
+            </div>
+            <div id="details-container">
+                <div class="loading-indicator">Loading, please wait&hellip;</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Scripts/underscore-min.js"></script>
+    <script type="text/javascript" src="/Scripts/mustache.js"></script>
+    <script type="text/javascript" src="/Scripts/d3.js"></script>
+
+    <script type="text/javascript" src="/Scripts/ListProvidersUtil.js"></script>
+    <script type="text/javascript" src="/Scripts/ListProvidersApi.js"></script>
+    <script type="text/javascript" src="/Scripts/ListProvidersGraphing.js"></script>
+    <script type="text/javascript" src="/Scripts/ListProviders.js"></script>
+
+    <script id="loading-template" type="x-tmpl-mustache">
+        <div class="loading-indicator">{{{message}}}</div>
+    </script>
+    <script id="label-template" type="x-tmpl-mustache">
+        <div class="label-name">{{name}}</div>
+        <div class="label-value">{{value}}</div>
+    </script>
+    <script id="providerresultsheader-template" type="x-tmpl-mustache">
+        <div id="sortby-container">
+            <form>
+                <label for="sortby">Sort by</label>
+                <select name="sortby" id="sortby">
+                    <option value="name">Name</option>
+                    <option value="distance" disabled="disabled">Distance</option>
+                    <option value="earnings" selected="selected">Future earnings</option>
+                    <option value="satisfaction">Learner satisfaction</option>
+                    <option value="passrate">Pass rate</option>
+                </select>
+            </form>
+        </div>
+        <h3 class="searchsummary">
+            {{#subjectname}}
+            {{totalcount}} {{subjectname}} course(s)
+            {{/subjectname}}
+            {{^subjectname}}
+            {{totalcount}} training provider(s)
+            {{/subjectname}}
+            {{#locationname}}
+            near {{locationname}}
+            {{/locationname}}
+        </h3>
+        <a href="#" id="clear-search" {{#searchset}} class="shown" {{/searchset}}>Clear filter</a>
+        <br />
+    </script>
+    <script id="bunchOfProviders-template" type="x-tmpl-mustache">
+        {{#.}}
+        <div class="singleProvider get-providerdetails" data-ukprn="{{provider_id}}">
+            <h1>
+                <a href="#provider={{provider_id}}" class="get-providerdetails" data-ukprn="{{provider_id}}">{{provider.name}}</a>
+            </h1>
+            {{#distance}}
+            <p>Distance: {{distance}} miles</p>
+            {{/distance}}
+            <div class="graph-container empty" data-ukprn="{{provider_id}}"></div>
+        </div>
+        {{/.}}
+    </script>
+
+    <script id="earningsTooltip-template" type="x-tmpl-mustache">
+        <p class="bignumber">{{valueFormatted}}</p>
+        <p class="bignumbercaption">average earnings five years after completion.</p>
+        <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} {{moreorless}}</span> than the national average.</p>
+    </script>
+
+    <script id="satisfactionTooltip-template" type="x-tmpl-mustache">
+        <p class="bignumber">{{valueFormatted}}</p>
+        <p class="bignumbercaption">average score given to this {{elementdescriptor}} by learners.</p>
+        <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
+    </script>
+
+    <script id="passrateTooltip-template" type="x-tmpl-mustache">
+        <p class="bignumber">{{valueFormatted}}</p>
+        <p class="bignumbercaption">of learners complete their education {{inorwith}} this {{elementdescriptor}}.</p>
+        <p class="bignumberbaseline">That's <span class="{{betterorworse}}">{{difference}} points {{betterorworse}}</span> than the national average.</p>
+    </script>
+
+    <script id="nodataTooltip-template" type="x-tmpl-mustache">
+        <p class="bignumber">?</p>
+        <p class="bignumberbaseline">{{noDataDescriptor}}</p>
+    </script>
+    <script id="providerDetails-template" type="x-tmpl-mustache">
+        <h2>
+            {{#subjectmode}}
+            {{primary.subject_tier_2_title}} at
+            {{/subjectmode}}
+            {{name}}
+        </h2>
+        <a href="#" class="mode-main">Search results</a>&ensp;&rsaquo;&ensp;
+        {{#subjectmode}}
+        <a href="#" class="setsubject">{{name}}</a>&ensp;&rsaquo;&ensp;
+        <span>{{primary.subject_tier_2_title}}</span>
+        {{/subjectmode}}
+        {{^subjectmode}}
+        <span>{{name}}</span>
+        {{/subjectmode}}
+        <div class="flex-container">
+            <div class="flex-2">
+                {{#primary}}
+                <div class="singleSubject setsubject" style="width:250px; margin: 20px 0" data-subjectcode="{{subject_tier_2_code}}">
+                    <h1><a href="#" class="setsubject" data-subjectcode="{{subject_tier_2_code}}">{{subject_tier_2_title}}</a></h1>
+                    <div class="graph-container empty" data-ukprn="{{ukprn}}" data-subjectcode="{{subject_tier_2_code}}"></div>
+                </div>
+                <h3 style="clear:both">Quick facts</h3>
+                <ul class="quickfacts">
+                    {{^performanceData.0.noData}}
+                    <li>Training graduates go on to earn an average of {{performanceData.0.valueFormatted}} p/a.</li>
+                    {{/performanceData.0.noData}}
+                    {{#earnings.percentage_above_21k}}
+                    <li>{{earnings.percentage_above_21k}}% of graduates earn over &pound;21,000 p/a.</li>
+                    {{/earnings.percentage_above_21k}}
+                    {{^performanceData.2.noData}}
+                    <li>{{performanceData.2.valueFormatted}} of learners complete their education with this training provider.</li>
+                    {{/performanceData.2.noData}}
+                    {{^performanceData.1.noData}}
+                    <li>Training graduates rate this training provider {{performanceData.1.valueFormatted}} out of 10.</li>
+                    {{/performanceData.1.noData}}
+                    {{#learner_stats.total}}
+                    <li>
+                        There are {{learner_stats.total}} learners with this training provider{{#learner_stats.age_25_plus}}, {{learner_stats.age_25_plus}} of which are aged 25 or older{{/learner_stats.age_25_plus}}.
+                    </li>
+                    {{/learner_stats.total}}
+
+                </ul>
+                {{/primary}}
+            </div>
+            <div class="flex-1">
+                <div class="address">
+                    <h3>Address</h3>
+                    {{#address.address1}}<p>{{address.address1}}</p>{{/address.address1}}
+                    {{#address.address2}}<p>{{address.address2}}</p>{{/address.address2}}
+                    {{#address.town}}<p>{{address.town}}</p>{{/address.town}}
+                    {{#address.county}}<p>{{address.county}}</p>{{/address.county}}
+                    {{#address.post_code}}<p>{{address.post_code}}</p>{{/address.post_code}}
+                </div>
+                {{#address.latitude}} {{#address.longitude}}
+                <p>
+                    <a href="http://www.google.com/maps?daddr={{address.latitude}},{{address.longitude}}" target="_blank">View on map</a>
+                </p>
+                {{/address.longitude}} {{/address.latitude}}
+                {{#website}}
+                <p>
+                    <a href="{{website}}">Visit their website</a>
+                </p>
+                {{/website}}
+            </div>
+        </div>
+        {{^subjectmode}}
+        <h3>
+            Courses
+        </h3>
+        <div id="subject-sortby-container">
+            <form>
+                <label for="subject-sortby">Sort by</label>
+                <select name="subject-sortby" id="subject-sortby">
+                    <option value="name">Name</option>
+                    <option value="earnings" selected="selected">Future earnings</option>
+                    <option value="satisfaction">Learner satisfaction</option>
+                    <option value="passrate">Pass rate</option>
+                </select>
+            </form>
+        </div>
+        <div id="subjects-all">
+            {{#apprenticeships}}
+            {{#subject_tier_2_code}}
+            <div class="singleSubject setsubject" data-subjectcode="{{subject_tier_2_code}}">
+                <h1><a href="#" class="setsubject" data-subjectcode="{{subject_tier_2_code}}">{{subject_tier_2_title}}</a></h1>
+                <div class="graph-container empty" data-ukprn="{{ukprn}}" data-subjectcode="{{subject_tier_2_code}}"></div>
+            </div>
+            {{/subject_tier_2_code}}
+            {{/apprenticeships}}
+        </div>
+        {{/subjectmode}}
+    </script>
+</body>
+</html>

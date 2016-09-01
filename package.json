@@ -1,0 +1,11 @@
+{
+  "name": "apprenticeship-scorecards",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Department for Business, Engergy and Industrial Strategy",
+  "license": "ISC"
+}
