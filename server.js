@@ -91,8 +91,8 @@ function getUrlParams(url) {
 }
 
 var _apiHost = "https://apprenticeship-scorecard-api.herokuapp.com/";
-//var _geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?key=" + process.env.APPSCORECARD_GOOGLEAPI + "&region=GB&";
-var _geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyDtW4y_vGc2y_xfVJr0UZPa9ZMwTBzr1xE&region=GB&";
+var googleApi = process.env.APPSCORECARD_GOOGLEAPI || "AIzaSyDtW4y_vGc2y_xfVJr0UZPa9ZMwTBzr1xE";
+var _geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?key=" + googleApi + "&region=GB&";
 
 function listData(params, callback) {
     var effectiveSubjectCode = params['subject'] || "0";
