@@ -95,7 +95,7 @@ var googleApi = process.env.APPSCORECARD_GOOGLEAPI || "AIzaSyDtW4y_vGc2y_xfVJr0U
 var _geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?key=" + googleApi + "&region=GB&";
 
 function listData(params, callback) {
-    var effectiveSubjectCode = params['subject'] || "0";
+    var effectiveSubjectCode = params['subjectcode'] || "0";
     var sortby = params.sortby;
     var sortByField;
     var reverse;
@@ -120,7 +120,7 @@ function listData(params, callback) {
         reverse = true;
     } else if (sortby == "passrate")
     {
-        sortByField = "stats.success_rate";
+        sortByField = "stats.achievement_rate";
         reverse = true;
     }
     else
@@ -194,7 +194,7 @@ function getJson(url, callback) {
 
 function GetLocationQueryAppendix(postcode, distance, callback)
 {
-    if (!postcode || !distance) { callback({}); return;}
+    if (!postcode || !distance) { callback(); return;}
     var endpoint = _geocodeUrl + "address=" + postcode;
     getJson(endpoint, function (res) {
         if (res && res.results && res.results[0]) {
@@ -204,11 +204,10 @@ function GetLocationQueryAppendix(postcode, distance, callback)
                 name: res.results[0].formatted_address
             }
             rtn.locationAppendix = "&lon="+rtn.longitude+"&lat="+rtn.latitude+"&dist="+distance;
-            console.log(rtn);
             callback(rtn);
         }
         else {
-            callback({});
+            callback();
         }
     })
 }
