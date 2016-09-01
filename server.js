@@ -6,7 +6,7 @@
 
 var server = http.createServer(handleRequest);
 
-server.listen('3100');
+server.listen('80');
 
 var views = {
     "index": fs.readFileSync("node.html", { encoding: "utf-8" })
