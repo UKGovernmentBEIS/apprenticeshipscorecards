@@ -176,7 +176,11 @@ function listData(params, callback) {
 }
 
 function getJson(url, callback) {
-    https.get(url, function(res){
+	var getter = url.indexOf("https://") === 0
+		? https
+		: http;	
+	
+    getter.get(url, function(res){
         var body = '';
 
         res.on('data', function(chunk){
