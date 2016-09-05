@@ -6,7 +6,7 @@
 
 var server = http.createServer(handleRequest);
 
-server.listen(process.env.PORT || 80);
+server.listen(process.env.PORT || 8080);
 
 var views = {
     "index": fs.readFileSync("node.html", { encoding: "utf-8" })
@@ -90,7 +90,7 @@ function getUrlParams(url) {
     return params;
 }
 
-var _apiHost = "https://apprenticeship-scorecard-api.herokuapp.com/";
+var _apiHost = process.env.APPSCORECARD_API || "https://apprenticeship-scorecard-api.herokuapp.com/";
 var googleApi = process.env.APPSCORECARD_GOOGLEAPI || "AIzaSyDtW4y_vGc2y_xfVJr0UZPa9ZMwTBzr1xE";
 var _geocodeUrl = "https://maps.googleapis.com/maps/api/geocode/json?key=" + googleApi + "&region=GB&";
 
